@@ -202,8 +202,9 @@ CREATE TABLE `usuarios` (
   `contrasena` varchar(15) DEFAULT NULL,
   `tipo` varchar(30) DEFAULT NULL,
   `correo` text,
+  `contcorreo` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,7 +213,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'admin','admin','Administrador',NULL),(6,'Pepe','12345','Usuario',NULL);
+INSERT INTO `usuarios` VALUES (1,'admin','admin','Administrador','ancona','ancona22'),(6,'Pepe','12345','Usuario','ancona','ancona22'),(7,'Jose','123456','Usuario','ancona','ancona22');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -225,4 +226,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-26 12:04:49
+-- Dump completed on 2014-07-26 17:42:49

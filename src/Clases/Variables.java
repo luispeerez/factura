@@ -18,6 +18,8 @@ public class Variables {
     public static int idUsuario;
     public static String NombreUsuario;
     public static String ContraseñaUsuario;
+    public static String CorreoUsuario;
+    public static String ContraseñaCorreo;
 
     /**
      * @return the idUsuario
@@ -428,6 +430,34 @@ public class Variables {
      */
     public static void setContraseñaUsuario(String aContraseñaUsuario) {
         ContraseñaUsuario = aContraseñaUsuario;
+    }
+
+    /**
+     * @return the CorreoUsuario
+     */
+    public static String getCorreoUsuario() {
+        return CorreoUsuario;
+    }
+
+    /**
+     * @param aCorreoUsuario the CorreoUsuario to set
+     */
+    public static void setCorreoUsuario(String aCorreoUsuario) {
+        CorreoUsuario = aCorreoUsuario;
+    }
+
+    /**
+     * @return the ContraseñaCorreo
+     */
+    public static String getContraseñaCorreo() {
+        return ContraseñaCorreo;
+    }
+
+    /**
+     * @param aContraseñaCorreo the ContraseñaCorreo to set
+     */
+    public static void setContraseñaCorreo(String aContraseñaCorreo) {
+        ContraseñaCorreo = aContraseñaCorreo;
     }
 
 

@@ -69,6 +69,7 @@ public class Principal extends javax.swing.JFrame {
     JScrollPane scrollcuadro = new JScrollPane();
     boolean nueva=true, editarcliente2=false;
     int idUsuarioPerfil;
+    static String CorreoUs;
     /**
      * Creates new form Principal
      */
@@ -102,16 +103,26 @@ public class Principal extends javax.swing.JFrame {
         EnviarSAT1.setVisible(false);
         jPanel13.setVisible(false);
         //////////////////////////
-        //**** Usuarios
+        //**** Usuarios      
+        jTextField23.setEditable(false);
+        jTextField22.setEditable(false);
         jTextField24.setEditable(false);
+        jTextField25.setEditable(false);
         jTextField26.setEditable(false);
+        CorreoUs=Variables.CorreoUsuario+"@gmail.com";
         
         
         if(Variables.Tipo.equalsIgnoreCase("Administrador")){
+            jPanel17.setVisible(true);
             jButton4.setVisible(true);
+            jButton30.setLocation(470, 550);
+            jButton31.setLocation(270, 550);
         }else{
             jButton4.setVisible(false);
             jButton23.setLocation(0, 540);
+            jPanel17.setVisible(false); 
+            jButton30.setLocation(470, 480);
+            jButton31.setLocation(270, 480);
         }
         
         TextAutoCompleter Autocompletar = new TextAutoCompleter(jTextField2);
@@ -225,12 +236,18 @@ public class Principal extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         jTextField24 = new javax.swing.JTextField();
         jTextField26 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jTextField21 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jButton30 = new javax.swing.JButton();
         jButton31 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        jTextField23 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField25 = new javax.swing.JTextField();
+        jTextField22 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -990,14 +1007,14 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel28.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jLabel28.setText("Nombre de Usuario:");
-        jPanel15.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        jPanel15.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
 
         jLabel29.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jLabel29.setText("Contraseña:");
-        jPanel15.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, -1, -1));
+        jPanel15.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, -1, -1));
 
         jTextField24.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jPanel15.add(jTextField24, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 180, 30));
+        jPanel15.add(jTextField24, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 220, 30));
 
         jTextField26.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jTextField26.setMaximumSize(new java.awt.Dimension(6, 24));
@@ -1006,17 +1023,17 @@ public class Principal extends javax.swing.JFrame {
                 jTextField26ActionPerformed(evt);
             }
         });
-        jPanel15.add(jTextField26, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 180, 30));
-
-        jLabel3.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel3.setText("Tipo de Usuario:");
-        jPanel15.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, -1, -1));
+        jPanel15.add(jTextField26, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 220, 30));
 
         jTextField21.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jPanel15.add(jTextField21, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 180, 30));
+        jPanel15.add(jTextField21, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 220, 30));
+
+        jLabel4.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel4.setText("Tipo de Usuario:");
+        jPanel15.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, -1, -1));
 
         Perfil.add(jPanel15);
-        jPanel15.setBounds(220, 290, 470, 180);
+        jPanel15.setBounds(210, 250, 470, 170);
 
         jButton30.setBackground(new java.awt.Color(0, 153, 255));
         jButton30.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
@@ -1028,7 +1045,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         Perfil.add(jButton30);
-        jButton30.setBounds(470, 500, 180, 43);
+        jButton30.setBounds(470, 550, 180, 43);
 
         jButton31.setBackground(new java.awt.Color(0, 153, 255));
         jButton31.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
@@ -1041,7 +1058,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         Perfil.add(jButton31);
-        jButton31.setBounds(270, 500, 180, 43);
+        jButton31.setBounds(270, 550, 180, 43);
 
         jPanel16.setBackground(Color.white);
         jPanel16.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1058,7 +1075,40 @@ public class Principal extends javax.swing.JFrame {
         jPanel16.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 240, 190));
 
         Perfil.add(jPanel16);
-        jPanel16.setBounds(330, 50, 260, 210);
+        jPanel16.setBounds(340, 20, 260, 210);
+
+        jPanel17.setBackground(Color.white);
+        jPanel17.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel17.setEnabled(false);
+        jPanel17.setMaximumSize(new java.awt.Dimension(724, 278));
+        jPanel17.setName(""); // NOI18N
+        jPanel17.setLayout(null);
+
+        jTextField23.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jPanel17.add(jTextField23);
+        jTextField23.setBounds(210, 10, 120, 30);
+
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel5.setText("Correo de la empresa:");
+        jPanel17.add(jLabel5);
+        jLabel5.setBounds(30, 20, 157, 18);
+
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel3.setText("Contraseña del correo:");
+        jPanel17.add(jLabel3);
+        jLabel3.setBounds(20, 70, 162, 18);
+
+        jTextField25.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jPanel17.add(jTextField25);
+        jTextField25.setBounds(210, 60, 220, 30);
+
+        jTextField22.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jTextField22.setText("@gmail.com");
+        jPanel17.add(jTextField22);
+        jTextField22.setBounds(330, 10, 100, 30);
+
+        Perfil.add(jPanel17);
+        jPanel17.setBounds(210, 430, 470, 110);
 
         jTabbedPane2.addTab("tab1", Perfil);
 
@@ -1348,9 +1398,9 @@ public class Principal extends javax.swing.JFrame {
 ///////////////*************Boton de enviar por correo ******************
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-        String Para = ""; //Correo al que mandaremos la factura
-        String De = ""; //Correo del que enviaremos la factura, tiene que ser @gmail.com
-        String Contrasena = ""; //Contraseña de ese correo
+        String Para = Variables.Correo; //Correo al que mandaremos la factura
+        String De = CorreoUs; //Correo del que enviaremos la factura, tiene que ser @gmail.com
+        String Contrasena = Variables.ContraseñaCorreo; //Contraseña de ese correo
         Properties Propiedades = new Properties();
         Propiedades.setProperty("mail.smtp.host", "smtp.gmail.com");
         Propiedades.setProperty("mail.smtp.starttls.enable", "true");
@@ -1652,9 +1702,9 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-       String Para = ""; //Correo al que mandaremos la factura
-        String De = ""; //Correo del que enviaremos la factura, tiene que ser @gmail.com
-        String Contrasena = ""; //Contraseña de ese correo
+        String Para = Variables.Correo; //Correo al que mandaremos la factura
+        String De = CorreoUs; //Correo del que enviaremos la factura, tiene que ser @gmail.com
+        String Contrasena = Variables.ContraseñaCorreo; //Contraseña de ese correo
         Properties Propiedades = new Properties();
         Propiedades.setProperty("mail.smtp.host", "smtp.gmail.com");
         Propiedades.setProperty("mail.smtp.starttls.enable", "true");
@@ -1796,43 +1846,61 @@ public class Principal extends javax.swing.JFrame {
         jButton5.setEnabled(true);
         jButton6.setEnabled(true);
         jButton7.setEnabled(true);
+        jButton24.setEnabled(true);
+        jButton23.setEnabled(true);
+        jPanel17.setVisible(true);
+        jButton30.setLocation(470, 550);
+        jButton31.setLocation(270, 550);
     }//GEN-LAST:event_jButton30ActionPerformed
 
-    static boolean modificar=false;
+    static boolean modificar = false;
     private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
+        try {
+            if (modificar == false) {
+                jButton31.setText("Guardar Datos");
+                jTextField23.setEditable(true);
+                jTextField25.setEditable(true);
+                jTextField24.setEditable(true);
+                jTextField26.setEditable(true);
 
-        
-        if(modificar==false){
-            jButton31.setText("Guardar Datos");
-            jTextField24.setEditable(true);
-            jTextField26.setEditable(true);
-
-            modificar = true;
-        } else {
-            if (jTextField24.getText().equalsIgnoreCase("") || jTextField26.getText().equalsIgnoreCase("")){
-                Object[] options = {"Aceptar"};
-                JOptionPane.showOptionDialog(null, "¡Datos incompletos", "Aviso",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-                        null, options, options[0]);
+                modificar = true;
             } else {
-                String Comando="UPDATE Usuarios SET Nombre='"+jTextField24.getText()+"', contrasena='"+jTextField26.getText()+
-                        "' WHERE id="+ idUsuarioPerfil +";";
-                Funcion.Update(st, Comando);
-                jButton31.setText("Editar Datos");
-                modificar = false;
-                Variables.NombreUsuario=jTextField24.getText();
-                Variables.ContraseñaUsuario=jTextField26.getText();
-                jTextField24.setEditable(false);
-                jTextField26.setEditable(false);
-                jButton4.setEnabled(true);
-                jButton5.setEnabled(true);
-                jButton6.setEnabled(true);
-                jButton7.setEnabled(true);
-                jButton24.setEnabled(true);
-                jButton23.setEnabled(true);
+                if (jTextField24.getText().equalsIgnoreCase("") || jTextField26.getText().equalsIgnoreCase("")) {
+                    Object[] options = {"Aceptar"};
+                    JOptionPane.showOptionDialog(null, "¡Datos incompletos", "Aviso",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                            null, options, options[0]);
+                } else {
+                    String Comando = "UPDATE Usuarios SET Nombre='" + jTextField24.getText() + "', contrasena='" + jTextField26.getText()
+                            + "' WHERE id=" + idUsuarioPerfil + ";";
+                    Funcion.Update(st, Comando);
+                    Comando = "UPDATE Usuarios SET Correo='" + jTextField23.getText() + "';";
+                    Funcion.Update(st, Comando);
+                    jButton31.setText("Editar Datos");
+                    modificar = false;
+                    Comandos = Funcion.Select(st, "Select *from usuarios WHERE id=" + Variables.idUsuario + ";");
+                    while (Comandos.next()) {
+                        Variables.NombreUsuario = (String) Comandos.getObject("Nombre");
+                        Variables.ContraseñaUsuario = (String) Comandos.getObject("Contrasena");
+                        Variables.CorreoUsuario = (String) Comandos.getObject("Correo");
+                        Variables.ContraseñaCorreo = (String) Comandos.getObject("Contcorreo");
+                    }
+                    CorreoUs =  Variables.CorreoUsuario + jTextField22.getText();
+                    jTextField23.setEditable(false);
+                    jTextField25.setEditable(false);
+                    jTextField24.setEditable(false);
+                    jTextField26.setEditable(false);
+                    jButton4.setEnabled(true);
+                    jButton5.setEnabled(true);
+                    jButton6.setEnabled(true);
+                    jButton7.setEnabled(true);
+                    jButton24.setEnabled(true);
+                    jButton23.setEnabled(true);
+                }
             }
-        }
+        } catch (Exception e) {
 
+        }
     }//GEN-LAST:event_jButton31ActionPerformed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
@@ -1904,6 +1972,8 @@ public class Principal extends javax.swing.JFrame {
                 jTextField24.setText(Comando.getString("Nombre"));
                 jTextField26.setText(Comando.getString("contrasena"));    
                 jTextField21.setText(Comando.getString("tipo"));
+                jTextField23.setText(Comando.getString("correo"));
+                jTextField25.setText(Comando.getString("Contcorreo"));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -2257,6 +2327,9 @@ public class Principal extends javax.swing.JFrame {
                     public void mouseClicked(MouseEvent e) {
                         JButton source = (JButton) e.getSource();
                         System.out.println(source.getName());
+                        jPanel17.setVisible(false);
+                        jButton30.setLocation(470, 480);
+                        jButton31.setLocation(270, 480);
                         jTabbedPane2.setSelectedIndex(5);
                         PerfilUsuario(Integer.parseInt(source.getName()));
                     }
@@ -2676,6 +2749,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -2687,6 +2762,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -2709,7 +2785,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField21;
+    private javax.swing.JTextField jTextField22;
+    private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
+    private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

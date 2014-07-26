@@ -189,6 +189,8 @@ public class Login extends javax.swing.JFrame {
                         Variables.NombreUsuario= (String) Comando.getObject("Nombre");
                         Variables.ContraseñaUsuario= (String) Comando.getObject("Contrasena");
                         Variables.idUsuario= Integer.parseInt(Comando.getObject("id")+"");
+                        Variables.CorreoUsuario= (String) Comando.getObject("Correo");
+                        Variables.ContraseñaCorreo=(String) Comando.getObject("Contcorreo");
                     }
                     this.hide();
                     Principal ver2 = new Principal();

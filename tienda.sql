@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.6.13, for Win64 (x86_64)
 --
--- Host: localhost    Database: tiendafactura
+-- Host: localhost    Database: tienda
 -- ------------------------------------------------------
 -- Server version	5.6.13
 
@@ -110,4 +110,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-24  7:13:37
+-- Dump completed on 2014-07-21 12:19:20

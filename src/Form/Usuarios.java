@@ -152,7 +152,7 @@ public class Usuarios extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             int id = 0;
-            String Comando2 = null;
+            String Comando2 = null, Correo=null, Contraseña=null;
             ResultSet Comando = null;
             if (jTextField1.getText().equalsIgnoreCase("")
                     || jPasswordField2.getText().equalsIgnoreCase("")
@@ -166,10 +166,15 @@ public class Usuarios extends javax.swing.JFrame {
                 Comando = Funcion.Select(st, "Select *from usuarios WHERE contrasena='" + jPasswordField1.getText() + "' and Tipo='Administrador';");
                 while (Comando.next()) {
                     Variables.Tipo = (String) Comando.getObject("Tipo");
+                    Contraseña= Comando.getString("contCorreo");
+                    Correo= Comando.getString("Correo");
                 }
                 if (Variables.Tipo.equalsIgnoreCase("Administrador")) {
+                    
+                    
                     Comando2 = "INSERT INTO usuarios VALUES (default,'" + jTextField1.getText() + "','"
-                            + jPasswordField2.getText() + "','" + jComboBox1.getSelectedItem() + "' ,null); ";
+                            + jPasswordField2.getText() + "','" + jComboBox1.getSelectedItem() + "' ,'"+Correo+"','"+
+                            Contraseña+"'); ";
                     Funcion.Update(st, Comando2);
                     //*******Limpiar
                     jTextField1.setText("");
