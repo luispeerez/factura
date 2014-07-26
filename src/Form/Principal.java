@@ -93,6 +93,10 @@ public class Principal extends javax.swing.JFrame {
         jButton4.setVisible(false);
         EnviarSAT1.setVisible(false);
         jPanel13.setVisible(false);
+        //////////////////////////
+        //**** Usuarios
+        jTextField24.setEditable(false);
+        jTextField26.setEditable(false);
         
         
         if(Variables.Tipo.equalsIgnoreCase("Administrador")){
@@ -101,13 +105,6 @@ public class Principal extends javax.swing.JFrame {
             jButton4.setVisible(false);
             jButton23.setLocation(0, 540);
         }
-      
-        
-        
-        
-        
-        
-        
         
         TextAutoCompleter Autocompletar = new TextAutoCompleter(jTextField2);
         Comandos = Funcion.Select(st, "SELECT * FROM cliente;");
@@ -214,6 +211,16 @@ public class Principal extends javax.swing.JFrame {
         jButton20 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
         EnviarSAT1 = new javax.swing.JButton();
+        Perfil = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jTextField24 = new javax.swing.JTextField();
+        jTextField26 = new javax.swing.JTextField();
+        jButton30 = new javax.swing.JButton();
+        jButton31 = new javax.swing.JButton();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel37 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -972,6 +979,80 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("tab5", EditarClientes);
 
+        Perfil.setBackground(new java.awt.Color(243, 243, 243));
+        Perfil.setLayout(null);
+
+        jPanel15.setBackground(Color.white);
+        jPanel15.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel15.setEnabled(false);
+        jPanel15.setMaximumSize(new java.awt.Dimension(724, 278));
+        jPanel15.setName(""); // NOI18N
+        jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel28.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel28.setText("Nombre de Usuario:");
+        jPanel15.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+
+        jLabel29.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel29.setText("Contraseña:");
+        jPanel15.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, -1, -1));
+
+        jTextField24.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jPanel15.add(jTextField24, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 180, 30));
+
+        jTextField26.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jTextField26.setMaximumSize(new java.awt.Dimension(6, 24));
+        jTextField26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField26ActionPerformed(evt);
+            }
+        });
+        jPanel15.add(jTextField26, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 180, 30));
+
+        Perfil.add(jPanel15);
+        jPanel15.setBounds(220, 290, 470, 150);
+
+        jButton30.setBackground(new java.awt.Color(0, 153, 255));
+        jButton30.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jButton30.setText("Cancelar");
+        jButton30.setFocusPainted(false);
+        jButton30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton30ActionPerformed(evt);
+            }
+        });
+        Perfil.add(jButton30);
+        jButton30.setBounds(470, 470, 180, 43);
+
+        jButton31.setBackground(new java.awt.Color(0, 153, 255));
+        jButton31.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jButton31.setText("Modificar Datos");
+        jButton31.setActionCommand("Guardar cambios");
+        jButton31.setFocusPainted(false);
+        jButton31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton31ActionPerformed(evt);
+            }
+        });
+        Perfil.add(jButton31);
+        jButton31.setBounds(270, 470, 180, 43);
+
+        jPanel16.setBackground(Color.white);
+        jPanel16.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel16.setEnabled(false);
+        jPanel16.setMaximumSize(new java.awt.Dimension(724, 278));
+        jPanel16.setName(""); // NOI18N
+        jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel37.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
+        jLabel37.setText("Perfil de Usuario");
+        jPanel16.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+
+        Perfil.add(jPanel16);
+        jPanel16.setBounds(270, 100, 370, 160);
+
+        jTabbedPane2.addTab("tab1", Perfil);
+
         getContentPane().add(jTabbedPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, 920, 650));
 
         pack();
@@ -1115,6 +1196,8 @@ public class Principal extends javax.swing.JFrame {
                         jButton5.setEnabled(false);
                         jButton6.setEnabled(false);
                         jButton7.setEnabled(false);
+                        jButton24.setEnabled(false);
+                        jButton23.setEnabled(false);
                         //Metodo para generar factura
                         factura();
                         CrearPanelPDF();
@@ -1430,6 +1513,8 @@ public class Principal extends javax.swing.JFrame {
                     jButton5.setEnabled(false);
                     jButton6.setEnabled(false);
                     jButton7.setEnabled(false);
+                    jButton24.setEnabled(false);
+                    jButton23.setEnabled(false);
                     //Metodo para generar factura
                     facturaClientes();
                     CrearPanelPDF();
@@ -1648,28 +1733,99 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_EnviarSAT1ActionPerformed
 
     private void jButton23MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton23MouseEntered
-        // TODO add your handling code here:
+         Color azul = new Color(0, 182, 230);
+        jButton23.setBackground(azul);
     }//GEN-LAST:event_jButton23MouseEntered
 
     private void jButton23MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton23MouseExited
-        // TODO add your handling code here:
+      Color gris = new Color(44, 44, 44);
+      jButton23.setBackground(gris);
     }//GEN-LAST:event_jButton23MouseExited
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        // TODO add your handling code here:
+        this.hide();
+        Variables.ver=false;
+        Login abrir= new Login();
+        abrir.setVisible(true);
+        this.dispose();
+      
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton24MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton24MouseEntered
-        // TODO add your handling code here:
+        Color azul = new Color(0, 182, 230);
+        jButton24.setBackground(azul);
     }//GEN-LAST:event_jButton24MouseEntered
 
     private void jButton24MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton24MouseExited
-        // TODO add your handling code here:
+        Color gris = new Color(44, 44, 44);
+        jButton24.setBackground(gris);
     }//GEN-LAST:event_jButton24MouseExited
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-        // TODO add your handling code here:
+        jTabbedPane2.setSelectedIndex(5);
+        jButton4.setEnabled(false);
+        jButton5.setEnabled(false);
+        jButton6.setEnabled(false);
+        jButton7.setEnabled(false);
+        jButton24.setEnabled(false);
+        jButton23.setEnabled(false);
+        jTextField24.setText(Variables.NombreUsuario);
+        jTextField26.setText(Variables.ContraseñaUsuario);
+        botonfalse();
     }//GEN-LAST:event_jButton24ActionPerformed
+
+    private void jTextField26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField26ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField26ActionPerformed
+
+    private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
+        jPanel8.removeAll();
+        jTabbedPane2.setSelectedIndex(0);
+        nueva = true;
+        botonfalse();
+        modificar = false;
+        jButton4.setEnabled(true);
+        jButton5.setEnabled(true);
+        jButton6.setEnabled(true);
+        jButton7.setEnabled(true);
+    }//GEN-LAST:event_jButton30ActionPerformed
+
+    static boolean modificar=false;
+    private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
+
+        
+        if(modificar==false){
+            jButton31.setText("Guardar Datos");
+            jTextField24.setEditable(true);
+            jTextField26.setEditable(true);
+
+            modificar = true;
+        } else {
+            if (jTextField24.getText().equalsIgnoreCase("") || jTextField26.getText().equalsIgnoreCase("")){
+                Object[] options = {"Aceptar"};
+                JOptionPane.showOptionDialog(null, "¡Datos incompletos", "Aviso",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                        null, options, options[0]);
+            } else {
+                String Comando="UPDATE Usuarios SET Nombre='"+jTextField24.getText()+"', contrasena='"+jTextField26.getText()+
+                        "' WHERE id="+ Variables.idUsuario+";";
+                Funcion.Update(st, Comando);
+                jButton31.setText("Editar Datos");
+                modificar = false;
+                Variables.NombreUsuario=jTextField24.getText();
+                Variables.ContraseñaUsuario=jTextField26.getText();
+                jTextField24.setEditable(false);
+                jTextField26.setEditable(false);
+                jButton4.setEnabled(true);
+                jButton5.setEnabled(true);
+                jButton6.setEnabled(true);
+                jButton7.setEnabled(true);
+                jButton24.setEnabled(true);
+                jButton23.setEnabled(true);
+            }
+        }
+
+    }//GEN-LAST:event_jButton31ActionPerformed
 ////////////////////////////////////////////////////////////////////
 // **************** METODOS *************    
 //////////////////////////////////////////////////////////////////////////////////////
@@ -2024,6 +2180,8 @@ public class Principal extends javax.swing.JFrame {
         jButton18.setVisible(false);
         jButton15.setVisible(false);
         editarcliente2=false;
+        jTextField24.setEditable(false);
+        jTextField26.setEditable(false);
     }
     public void PanelFacturas() {
         int i = 0;
@@ -2169,6 +2327,8 @@ public class Principal extends javax.swing.JFrame {
         jButton5.setEnabled(true);
         jButton6.setEnabled(true);
         jButton7.setEnabled(true);
+        jButton24.setEnabled(true);
+        jButton23.setEnabled(true);
 
     }
     public void Consulta(){
@@ -2276,6 +2436,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton EnviarSAT;
     private javax.swing.JButton EnviarSAT1;
     private javax.swing.JPanel NueFactura;
+    private javax.swing.JPanel Perfil;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -2292,6 +2453,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton30;
+    private javax.swing.JButton jButton31;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -2317,6 +2480,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -2326,6 +2492,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -2347,6 +2515,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;
+    private javax.swing.JTextField jTextField24;
+    private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;

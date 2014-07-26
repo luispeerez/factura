@@ -16,6 +16,8 @@ public class Variables {
 
     //**********  Login  ****************************
     public static int idUsuario;
+    public static String NombreUsuario;
+    public static String ContraseñaUsuario;
 
     /**
      * @return the idUsuario
@@ -62,6 +64,7 @@ public class Variables {
     public static String FechaFactura;
     public static String Comentario;
     public static String Tipo;
+    public static boolean ver=false;
     
     /**
      * @return the idCliente
@@ -383,6 +386,48 @@ public class Variables {
      */
     public static void setComentario(String aComentario) {
         Comentario = aComentario;
+    }
+
+    /**
+     * @return the ver
+     */
+    public static boolean isVer() {
+        return ver;
+    }
+
+    /**
+     * @param aVer the ver to set
+     */
+    public static void setVer(boolean aVer) {
+        ver = aVer;
+    }
+
+    /**
+     * @return the NombreUsuario
+     */
+    public static String getNombreUsuario() {
+        return NombreUsuario;
+    }
+
+    /**
+     * @param aNombreUsuario the NombreUsuario to set
+     */
+    public static void setNombreUsuario(String aNombreUsuario) {
+        NombreUsuario = aNombreUsuario;
+    }
+
+    /**
+     * @return the ContraseñaUsuario
+     */
+    public static String getContraseñaUsuario() {
+        return ContraseñaUsuario;
+    }
+
+    /**
+     * @param aContraseñaUsuario the ContraseñaUsuario to set
+     */
+    public static void setContraseñaUsuario(String aContraseñaUsuario) {
+        ContraseñaUsuario = aContraseñaUsuario;
     }
 
 

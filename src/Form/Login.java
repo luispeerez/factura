@@ -56,6 +56,7 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow"));
+        setResizable(false);
 
         jButton1.setBackground(new java.awt.Color(0, 153, 255));
         jButton1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
@@ -170,13 +171,13 @@ public class Login extends javax.swing.JFrame {
 
     
     //Boton de iniciar sesion
-    static boolean ver=false;
+    
      ResultSet Comando;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
      try{
-        if(ver==false){
+        if(Variables.ver==false){
             jPanel1.setVisible(true);
-            ver=true;
+           Variables.ver=true;
         }
         //Iniciar sesion
         else{
@@ -185,6 +186,9 @@ public class Login extends javax.swing.JFrame {
                    Comando = Funcion.Select(st, "Select *from usuarios WHERE contrasena='" + jPasswordField1.getText() + "'and Nombre='"+ jTextField1.getText()+"';");
                     while (Comando.next()) {
                         Variables.Tipo = (String) Comando.getObject("Tipo");
+                        Variables.NombreUsuario= (String) Comando.getObject("Nombre");
+                        Variables.ContraseñaUsuario= (String) Comando.getObject("Contrasena");
+                        Variables.idUsuario= Integer.parseInt(Comando.getObject("id")+"");
                     }
                     this.hide();
                     Principal ver2 = new Principal();
@@ -206,7 +210,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // TODO add your handling code here:
-        ver = false;
+        Variables.ver = false;
         Usuarios abrir=new Usuarios();
         this.hide();
         abrir.setVisible(true);
