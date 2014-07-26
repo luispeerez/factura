@@ -44,8 +44,16 @@ import org.icepdf.ri.common.*;
 import org.icepdf.ri.util.PropertiesManager;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Desktop;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  *
@@ -60,7 +68,7 @@ public class Principal extends javax.swing.JFrame {
     JPanel Panelpdf= new JPanel();
     JScrollPane scrollcuadro = new JScrollPane();
     boolean nueva=true, editarcliente2=false;
-
+    int idUsuarioPerfil;
     /**
      * Creates new form Principal
      */
@@ -217,10 +225,12 @@ public class Principal extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         jTextField24 = new javax.swing.JTextField();
         jTextField26 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField21 = new javax.swing.JTextField();
         jButton30 = new javax.swing.JButton();
         jButton31 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
-        jLabel37 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -721,18 +731,7 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel12.setBackground(new java.awt.Color(243, 243, 243));
         jPanel12.setPreferredSize(new java.awt.Dimension(870, 660));
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 870, Short.MAX_VALUE)
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
-        );
-
+        jPanel12.setLayout(null);
         jScrollPane4.setViewportView(jPanel12);
 
         AdmUsuarios.add(jScrollPane4);
@@ -1009,8 +1008,15 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel15.add(jTextField26, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 180, 30));
 
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel3.setText("Tipo de Usuario:");
+        jPanel15.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, -1, -1));
+
+        jTextField21.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jPanel15.add(jTextField21, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 180, 30));
+
         Perfil.add(jPanel15);
-        jPanel15.setBounds(220, 290, 470, 150);
+        jPanel15.setBounds(220, 290, 470, 180);
 
         jButton30.setBackground(new java.awt.Color(0, 153, 255));
         jButton30.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
@@ -1022,7 +1028,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         Perfil.add(jButton30);
-        jButton30.setBounds(470, 470, 180, 43);
+        jButton30.setBounds(470, 500, 180, 43);
 
         jButton31.setBackground(new java.awt.Color(0, 153, 255));
         jButton31.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
@@ -1035,7 +1041,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         Perfil.add(jButton31);
-        jButton31.setBounds(270, 470, 180, 43);
+        jButton31.setBounds(270, 500, 180, 43);
 
         jPanel16.setBackground(Color.white);
         jPanel16.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1044,12 +1050,15 @@ public class Principal extends javax.swing.JFrame {
         jPanel16.setName(""); // NOI18N
         jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel37.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
-        jLabel37.setText("Perfil de Usuario");
-        jPanel16.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
+        jPanel16.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 240, 190));
 
         Perfil.add(jPanel16);
-        jPanel16.setBounds(270, 100, 370, 160);
+        jPanel16.setBounds(330, 50, 260, 210);
 
         jTabbedPane2.addTab("tab1", Perfil);
 
@@ -1769,8 +1778,7 @@ public class Principal extends javax.swing.JFrame {
         jButton7.setEnabled(false);
         jButton24.setEnabled(false);
         jButton23.setEnabled(false);
-        jTextField24.setText(Variables.NombreUsuario);
-        jTextField26.setText(Variables.ContraseñaUsuario);
+        PerfilUsuario(Variables.idUsuario);
         botonfalse();
     }//GEN-LAST:event_jButton24ActionPerformed
 
@@ -1808,7 +1816,7 @@ public class Principal extends javax.swing.JFrame {
                         null, options, options[0]);
             } else {
                 String Comando="UPDATE Usuarios SET Nombre='"+jTextField24.getText()+"', contrasena='"+jTextField26.getText()+
-                        "' WHERE id="+ Variables.idUsuario+";";
+                        "' WHERE id="+ idUsuarioPerfil +";";
                 Funcion.Update(st, Comando);
                 jButton31.setText("Editar Datos");
                 modificar = false;
@@ -1826,8 +1834,81 @@ public class Principal extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton31ActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+        File Ruta = new File("Imagenes/Fotos Perfil/");
+        JFileChooser Examinar = new JFileChooser();
+        FileNameExtensionFilter Filtro = new FileNameExtensionFilter("Image", "png", "jpg");
+        Examinar.addChoosableFileFilter(Filtro);
+        Examinar.setAcceptAllFileFilterUsed(false);
+        Examinar.setFileFilter(Filtro);
+        int Estatus = Examinar.showOpenDialog(this);
+        if(Estatus == JFileChooser.APPROVE_OPTION){
+            File Origen = Examinar.getSelectedFile();
+            String Extension = FilenameUtils.getExtension(Origen.getPath());
+            File Copia = new File(Variables.getIdUsuario() + "." + Extension);
+            try{
+                FileUtils.copyFile(Origen, Copia);
+                FileUtils.copyFileToDirectory(Copia, Ruta);
+                if(Extension.equals("png")){
+                    File jpg = new File("Imagenes/Fotos Perfil/" + Variables.idUsuario + ".jpg");
+                    if(jpg.exists()){
+                        jpg.delete();
+                    }
+                }
+                if(Extension.equals("jpg")){
+                    File png = new File("Imagenes/Fotos Perfil/" + Variables.idUsuario + ".png");
+                    if(png.exists()){
+                        png.delete();
+                    }
+                }
+                Copia.delete();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if(Estatus == JFileChooser.CANCEL_OPTION){
+            System.out.println("Cancelar");
+        }
+        PerfilUsuario(Variables.idUsuario);
+    }//GEN-LAST:event_jLabel2MouseClicked
 ////////////////////////////////////////////////////////////////////
 // **************** METODOS *************    
+    
+ //** Perfil de Usuario
+    public void PerfilUsuario(int idUsuario){
+        idUsuarioPerfil = idUsuario;
+       try {
+           File FotoPerfil = new File("Imagenes/Fotos Perfil/" + idUsuario + ".png");
+           File FotoPerfil2 = new File("Imagenes/Fotos Perfil/" + idUsuario + ".jpg");
+           Comando = Funcion.Select(st, "SELECT * FROM usuarios WHERE id = " + idUsuario + ";");
+           if(FotoPerfil.exists())
+           {
+               ImageIcon Imagen = new ImageIcon("Imagenes/Fotos Perfil/" + idUsuario + ".png");
+               Image ImagenEscalada = Imagen.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
+               Icon IconoEscalado = new ImageIcon(ImagenEscalada);
+               jLabel2.setIcon(IconoEscalado);
+           } else if(FotoPerfil2.exists()){
+               ImageIcon Imagen = new ImageIcon("Imagenes/Fotos Perfil/" + idUsuario + ".jpg");
+               Image ImagenEscalada = Imagen.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
+               Icon IconoEscalado = new ImageIcon(ImagenEscalada);
+               jLabel2.setIcon(IconoEscalado);
+           } else{
+               ImageIcon Imagen = new ImageIcon("Imagenes/Fotos Perfil/Default.png");
+               Image ImagenEscalada = Imagen.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
+               Icon IconoEscalado = new ImageIcon(ImagenEscalada);
+               jLabel2.setIcon(IconoEscalado);
+           }
+            while (Comando.next()) {
+                jTextField24.setText(Comando.getString("Nombre"));
+                jTextField26.setText(Comando.getString("contrasena"));    
+                jTextField21.setText(Comando.getString("tipo"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+   } 
 //////////////////////////////////////////////////////////////////////////////////////
 //*** Crear facturaPDF
     public void factura() {
@@ -2099,33 +2180,144 @@ public class Principal extends javax.swing.JFrame {
         int i = 0;
         int Altura = 0;
         Color gris = new Color(44, 44, 44);
+        Color azul = new Color(0, 153, 255);
+        Color rojo = new Color(221, 76, 76);
         try {
             //Consultamos todos los clientes
             ResultSet Comandos = Funcion.Select(st, "SELECT * FROM usuarios where id>1;");
             //Ciclo para crear un panel para cada uno
             while (Comandos.next()) {
                 //Creamos un panel con alineacion a la izquierda
-                JPanel Panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                JPanel Panel = new JPanel();
+                Panel.setLayout(null);
                 jPanel12.add(Panel);
                 //Tamaño del panel
-                Panel.setSize(700, 120);
+                Panel.setSize(500, 200);
                 // La posicion y del panel ira incrementando para que no se encimen
-                Altura = 30 + (i * 130);
-                Panel.setLocation(50, Altura);
+                Altura = 40 + (i * 220);
+                Panel.setLocation(175, Altura);
                 Panel.setBackground(Color.white);
                 Panel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
                 //Creamos label para mostrar los datos del cliente, el codigo html es para que al llegar al final del panel
                 //se pase a la siguiente linea y para el margen izquierdo
-                JLabel Nombre = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Nombre: " + Comandos.getString("Nombre")));
-                JLabel Contrasena = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Contraseña: " + Comandos.getString("Contrasena")));
+                JLabel Foto = new JLabel();
+                Foto.setSize(150, 150);
+                File FotoPerfil = new File("Imagenes/Fotos Perfil/" + Comandos.getInt("id") + ".png");
+                File FotoPerfil2 = new File("Imagenes/Fotos Perfil/" + Comandos.getInt("id") + ".jpg");
+                if (FotoPerfil.exists()) {
+                    ImageIcon Imagen = new ImageIcon("Imagenes/Fotos Perfil/" + Comandos.getInt("id") + ".png");
+                    Image ImagenEscalada = Imagen.getImage().getScaledInstance(Foto.getWidth(), Foto.getHeight(), Image.SCALE_SMOOTH);
+                    Icon IconoEscalado = new ImageIcon(ImagenEscalada);
+                    Foto.setIcon(IconoEscalado);
+                } else if (FotoPerfil2.exists()) {
+                    ImageIcon Imagen = new ImageIcon("Imagenes/Fotos Perfil/" + Comandos.getInt("id") + ".jpg");
+                    Image ImagenEscalada = Imagen.getImage().getScaledInstance(Foto.getWidth(), Foto.getHeight(), Image.SCALE_SMOOTH);
+                    Icon IconoEscalado = new ImageIcon(ImagenEscalada);
+                    Foto.setIcon(IconoEscalado);
+                } else {
+                    ImageIcon Imagen = new ImageIcon("Imagenes/Fotos Perfil/Default.png");
+                    Image ImagenEscalada = Imagen.getImage().getScaledInstance(Foto.getWidth(), Foto.getHeight(), Image.SCALE_SMOOTH);
+                    Icon IconoEscalado = new ImageIcon(ImagenEscalada);
+                    Foto.setIcon(IconoEscalado);
+                }
+                JLabel Nombre = new JLabel();
+                Nombre.setText("Nombre de Usuario: " + Comandos.getString("Nombre"));
+                JLabel Contrasena = new JLabel();
+                Contrasena.setText(("Contraseña: " + Comandos.getString("contrasena")));
+                JButton Editar = new JButton();
+                Editar.setText("Editar");
+                Editar.setName(Comandos.getString("id"));
+                Editar.setBackground(azul);
+                JButton Eliminar = new JButton();
+                Eliminar.setText("Eliminar");
+                Eliminar.setName(Comandos.getString("id"));
+                Eliminar.setBackground(rojo);
+                MouseListener mlEditar = new MouseListener() {
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        //System.out.println("Released!");
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        //System.out.println("Pressed!");
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        //System.out.println("Exited!");
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        //System.out.println("Entered!");
+                    }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        JButton source = (JButton) e.getSource();
+                        System.out.println(source.getName());
+                        jTabbedPane2.setSelectedIndex(5);
+                        PerfilUsuario(Integer.parseInt(source.getName()));
+                    }
+                };
+                MouseListener mlEliminar = new MouseListener() {
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        //System.out.println("Released!");
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        //System.out.println("Pressed!");
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        //System.out.println("Exited!");
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        //System.out.println("Entered!");
+                    }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        JButton source = (JButton) e.getSource();
+                        System.out.println(source.getName());
+                        Funcion.Update(st, "DELETE FROM usuarios WHERE id = " + source.getName() + ";");
+                        jPanel12.removeAll();
+                        PanelUsuarios();
+                        jPanel12.repaint();
+                    }
+                };
+                Editar.addMouseListener(mlEditar);
+                Eliminar.addMouseListener(mlEliminar);
                 //Fuente del texto;
-                Nombre.setFont(new Font("Verdana", Font.PLAIN, 13));
+                Nombre.setFont(new Font("Verdana", Font.PLAIN, 15));
                 Nombre.setForeground(gris);
-                Contrasena.setFont(new Font("Verdana", Font.PLAIN, 13));
+                Contrasena.setFont(new Font("Verdana", Font.PLAIN, 15));
                 Contrasena.setForeground(gris);
+                Editar.setFont(new Font("Verdana", Font.PLAIN, 15));
+                Editar.setForeground(Color.white);
+                Eliminar.setFont(new Font("Verdana", Font.PLAIN, 15));
+                Eliminar.setForeground(Color.white);
                 //Añadimos los label al panel correspondiente del cliente
+                Panel.add(Foto);
                 Panel.add(Nombre);
                 Panel.add(Contrasena);
+                Panel.add(Editar);
+                Panel.add(Eliminar);
+                Foto.setLocation(10, 20);
+                Nombre.setLocation(170, 30);
+                Nombre.setSize(300, 45);
+                Contrasena.setLocation(170, 60);
+                Contrasena.setSize(300, 45);
+                Editar.setLocation(170, 100);
+                Editar.setSize(120, 40);
+                Eliminar.setLocation(315, 100);
+                Eliminar.setSize(120, 40);
                 i++;
             }
         } catch (SQLException ex) {
@@ -2474,6 +2666,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -2482,7 +2675,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -2515,6 +2708,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;
+    private javax.swing.JTextField jTextField21;
     private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField3;

@@ -169,7 +169,7 @@ public class Usuarios extends javax.swing.JFrame {
                 }
                 if (Variables.Tipo.equalsIgnoreCase("Administrador")) {
                     Comando2 = "INSERT INTO usuarios VALUES (default,'" + jTextField1.getText() + "','"
-                            + jPasswordField2.getText() + "','" + jComboBox1.getSelectedItem() + "'); ";
+                            + jPasswordField2.getText() + "','" + jComboBox1.getSelectedItem() + "' ,null); ";
                     Funcion.Update(st, Comando2);
                     //*******Limpiar
                     jTextField1.setText("");
