@@ -6,6 +6,7 @@
 
 package Clases;
 
+import com.sun.org.apache.xpath.internal.operations.Variable;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,31 +16,38 @@ import java.util.ArrayList;
  *
  * @author luis
  */
+
+
 public class NuevoXML {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+
+    public static String ruta;
+     public NuevoXML(String f) {
+        ruta = f;
+    }
+    public static void main() {
         try {
             int folioFactura = 930909303;
-            String fechaFactura = "2014-07-21 10:30:00";
+            String fechaFactura = Variables.FechaSistema;
             String selloFactura = "RFEKFEKFE3i9049039093093FJRKRFKedkdkmfE94049=";
             String formaDePago = "PAGO EN UNA SOLA EXHIBICION";
             String noCertificado = "00002239930111";
             String certificado = "MED044904934QWOASCODdofkofrk3343401032EOROC=";
-            float subTotal = 32100;
+            Double subTotal = Variables.subtotal;
             String tipoCambio = "1.00";
             String moneda = "Peso Mexicano";
-            float subtotal = 3210;
-            float total = 3723;
+            Double subtotal =  Variables.subtotal;
+            Double total = Variables.total;
             String tipoComprobante = "ingreso";
             String metodoPago = "NA";
             String totalEnLetra = "TRES MIL SETESCIENTOS VEINTI TRES M.N";
             String totalEnLetraIngles = "TRES MIL SETESCIENTOS VEINTI TRES M.N";
             
             //Direcciones empresa
-            String direccion = "Cereza 37 , Av. Bonampaz Cuarto Piso Depto. 401 Manz 11 SuperManz. 2A"; 
+            String direccion = "AV. PUERTO JUAREZ, LTE. 29 MZA. 1, REG. 92"; 
             String cp = "CP : 77500";
             String localidad = "Cancun";
             String municipio = "Benito Juarez";
@@ -50,28 +58,28 @@ public class NuevoXML {
             String noExterior = "474";
             String noInterior="ALTOS";
             String colonia = "CENTRO";
-            String email = "info@ancona.com";
+            String email = "ancona@gmail.com";
             String tel = "9999238011";
             
             ///
             
             //Datos empresa
-            String rfcEmpresa = "DRG041213AV9";
+            String rfcEmpresa = "RAA020304893";
             String nombreEmpresa = "REFACCIONARIA ANCONA S.A de C.V";
             
             
             //Datos cliente
-            String rfcCliente = "OPE0401271D8";
-            String nombreCliente = "OPERATEC, S.A. DE C.V.";
-            String calleCliente = "AV. LABNA MANZANA 17 LOTE 86";
-            String noInteriorCliente = "A";
-            String noExteriorCliente = "S/N";
-            String coloniaCliente = "SUPERMANZA 20";
-            String localidadCliente = "CANCUN";
-            String municipioCliente = "BENITO JUAREZ";
-            String estadoCliente = "QUINTANA ROO";
+            String rfcCliente = Variables.RFC;
+            String nombreCliente = Variables.NombreCliente;
+            String calleCliente = Variables.Direccion;
+            String noInteriorCliente = "";
+            String noExteriorCliente = "";
+            String coloniaCliente = "";
+            String localidadCliente = Variables.delegacion;
+            String municipioCliente = Variables.municipio;
+            String estadoCliente = Variables.Estado;
             String paisCliente = "MEXICO";
-            String clienteCP = "77500";
+            String clienteCP = Variables.codpostal+"";
             
             
             //Ventas
@@ -93,12 +101,12 @@ public class NuevoXML {
                 
             }
             
-            double ivadelTotal = 513.60;
+            double ivadelTotal = Variables.iva;
             String impuesto="IVA";
             double tasaIVA = 16.00;
-            String fechaTimbrado = "2014-06-02 17:09:58";
+            String fechaTimbrado = Variables.FechaFactura;
             
-            BufferedWriter out = new BufferedWriter(new FileWriter("file.xml"));
+            BufferedWriter out = new BufferedWriter(new FileWriter(ruta));
             out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             out.write("\n");
             

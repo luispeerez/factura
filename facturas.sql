@@ -92,8 +92,9 @@ CREATE TABLE `factura_emitida` (
   `Folio` int(10) DEFAULT NULL,
   `Serie` varchar(5) DEFAULT NULL,
   `Observaciones` text,
+  `fechasistema` text,
   PRIMARY KEY (`idFacturaEmitida`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +103,6 @@ CREATE TABLE `factura_emitida` (
 
 LOCK TABLES `factura_emitida` WRITE;
 /*!40000 ALTER TABLE `factura_emitida` DISABLE KEYS */;
-INSERT INTO `factura_emitida` VALUES (2,3,'1GR523GTEDQY','GHVN24501JKTU1','2014-07-25 10:21:15','Cancun Quintana Roo, Mexico',3,'5E34','Pagos diferidos');
 /*!40000 ALTER TABLE `factura_emitida` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,7 +213,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'admin','admin','Administrador','ancona','ancona22'),(6,'Pepe','12345','Usuario','ancona','ancona22'),(7,'Jose','123456','Usuario','ancona','ancona22');
+INSERT INTO `usuarios` VALUES (1,'admin','admin','Administrador','ancona','ancona22'),(6,'Pepe','12345','Usuario','ancona','ancona22');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -226,4 +226,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-26 17:42:49
+-- Dump completed on 2014-07-27 15:20:08

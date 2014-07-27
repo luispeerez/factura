@@ -5,8 +5,11 @@
  */
 package Form;
 
+
+import java.util.*;
 import Clases.Variables;
 import Clases.NuevoPdf;
+import Clases.NuevoXML;
 import MySQL.Funcion;
 import MySQL.FuncionTienda;
 import java.awt.Color;
@@ -1258,6 +1261,7 @@ public class Principal extends javax.swing.JFrame {
                         jButton24.setEnabled(false);
                         jButton23.setEnabled(false);
                         //Metodo para generar factura
+                        FechaSistema();
                         factura();
                         CrearPanelPDF();
     
@@ -1370,6 +1374,7 @@ public class Principal extends javax.swing.JFrame {
 /////////////////********** Boton de agregar la factura    
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         try{
+            
             Inicio();
             String folio_fiscal = "1GR523GTEDQY";
             String serie_csd = "GHVN24501JKTU1";
@@ -1385,9 +1390,12 @@ public class Principal extends javax.swing.JFrame {
                     "',"+ idnota + 
                     ",'" + serie + 
                     "','" + Variables.Comentario+ "'"                   
-                    +" );";       
+                    +",'"+Variables.FechaSistema+"');";       
             Funcion.Update(st, Comando);
                 JOptionPane.showMessageDialog(null, "Factura creada");
+    
+                NuevoXML xml = new NuevoXML("factura"+idnota+".xml");
+                xml.main();        
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -2451,22 +2459,21 @@ public class Principal extends javax.swing.JFrame {
     public void PanelFacturas() {
         int i = 0;
         int Altura = 0;
-        
         Color gris = new Color(44, 44, 44);
-
         Color azul = new Color(0, 153, 255);
-        JLabel Abre = null;
+        Color rojo = new Color(221, 76, 76);
         try {
-
             //Consultamos todos los clientes
             ResultSet Comandos = Funcion.Select(st, "SELECT factura_emitida.*, cliente.*  FROM cliente,factura_emitida  WHERE factura_emitida.idCliente = cliente.idCliente;");
-            //Ciclo para crear un panel para cada uno
+             //Ciclo para crear un panel para cada uno
             while (Comandos.next()) {
+                Variables.Comentario= Comandos.getString("Observaciones");
                 //Creamos un panel con alineacion a la izquierda
-                JPanel Panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                JPanel Panel = new JPanel();
+                Panel.setLayout(null);
                 jPanel11.add(Panel);
                 //Tamaño del panel
-                Panel.setSize(700, 200);
+                Panel.setSize(680, 200);
                 // La posicion y del panel ira incrementando para que no se encimen
                 Altura = 30 + (i * 250);
                 Panel.setLocation(50, Altura);
@@ -2474,18 +2481,29 @@ public class Principal extends javax.swing.JFrame {
                 Panel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
                 //Creamos label para mostrar los datos del cliente, el codigo html es para que al llegar al final del panel
                 //se pase a la siguiente linea y para el margen izquierdo
-                
-                JLabel FolioFactura = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Folio de factura: " + Comandos.getString("idFacturaEmitida")));
-                JLabel RFC = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "RFC: " + Comandos.getString("RFC")));
-                JLabel Nombre = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Nombre: " + Comandos.getString("NombreCliente")));
-                JLabel Direccion = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Direccion: " + Comandos.getString("Direccion")));
-                JLabel Correo = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Correo: " + Comandos.getString("correo")));
-                JLabel Fecha= new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Fecha y hora de emisión: " + Comandos.getString("FechaEmision")));
-                
-                Abre = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:450px;'>%s</div><html>", Panel.getWidth(), "<html><u>Abrir</u></html>)"));
-                Abre.setToolTipText(String.valueOf(Comandos.getInt("Folio")));
-                Abre.setCursor(null);
-                MouseListener ml = new MouseListener() {
+       
+                JLabel FolioFactura = new JLabel();
+                FolioFactura.setText("Folio de factura: " + Comandos.getString("idFacturaEmitida"));
+                JLabel RFC = new JLabel();
+                RFC.setText("RFC: " + Comandos.getString("RFC"));
+                JLabel Nombre = new JLabel();
+                Nombre.setText("Nombre: " + Comandos.getString("NombreCliente"));
+                JLabel Direccion = new JLabel();
+                Direccion.setText("Direccion: " + Comandos.getString("Direccion"));
+                JLabel Correo = new JLabel();
+                Correo.setText("Correo: " + Comandos.getString("correo"));
+                JLabel Fecha= new JLabel();
+                Fecha.setText("Fecha y Hora de emisión: " + Comandos.getString("FechaEmision"));
+              
+                JButton Abre = new JButton();
+                Abre.setText("Abrir");
+                Abre.setName(Comandos.getString("Folio"));
+                Abre.setBackground(azul);
+                JButton Cancelar = new JButton();
+                Cancelar.setText("Cancelar");
+                Cancelar.setName(Comandos.getString("Folio"));
+                Cancelar.setBackground(rojo);
+                MouseListener mlEditar = new MouseListener() {
                     @Override
                     public void mouseReleased(MouseEvent e) {
                         //System.out.println("Released!");
@@ -2504,29 +2522,67 @@ public class Principal extends javax.swing.JFrame {
                     @Override
                     public void mouseEntered(MouseEvent e) {
                         //System.out.println("Entered!");
-                        e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     }
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        JLabel source = (JLabel) e.getSource();
-                        idFacClien = Integer.parseInt(source.getToolTipText());
-                        Variables.guardar= false;
-                        Consulta();
-                        NuevoPdf pdf = new NuevoPdf("Factura.pdf");
-                        pdf.main();
-
-                        File myfile = new File("Factura.pdf");
                         try {
+                            JButton source = (JButton) e.getSource();
+                            idFacClien = Integer.parseInt(source.getName());
+                            ResultSet Comandos = Funcion.Select(st, "SELECT *FROM factura_emitida  WHERE idfacturaEmitida=" + idFacClien + ";");
+                            while (Comandos.next()) {
+                                Variables.FechaFactura = Comandos.getString("FechaEmision");
+                                Variables.FechaSistema= Comandos.getString("fechasistema");
+                            }
+
+                            Variables.guardar = false;
+                            Consulta();
+                            NuevoPdf pdf = new NuevoPdf("Factura.pdf");
+                            pdf.main();
+
+                            File myfile = new File("Factura.pdf");
+
                             Desktop.getDesktop().open(myfile);
 
-                        } catch (IOException ex) {
+                        } catch (Exception ex) {
                             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
                         }
+
                     }
                 };
-                Abre.addMouseListener(ml);
-                //Fuente del texto
+                MouseListener mlEliminar = new MouseListener() {
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        //System.out.println("Released!");
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        //System.out.println("Pressed!");
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        //System.out.println("Exited!");
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        //System.out.println("Entered!");
+                    }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        JButton source = (JButton) e.getSource();
+                        System.out.println(source.getName());
+                        jPanel11.removeAll();
+                        PanelFacturas();
+                        jPanel11.repaint();
+                    }
+                };
+                Abre.addMouseListener(mlEditar);
+                Cancelar.addMouseListener(mlEliminar);
+                //Fuente del texto;
                 FolioFactura.setFont(new Font("Verdana", Font.PLAIN, 13));
                 FolioFactura.setForeground(gris);
                 RFC.setFont(new Font("Verdana", Font.PLAIN, 13));
@@ -2539,8 +2595,11 @@ public class Principal extends javax.swing.JFrame {
                 Correo.setForeground(gris);
                 Fecha.setFont(new Font("Verdana", Font.PLAIN, 13));
                 Fecha.setForeground(gris);
-                Abre.setFont(new Font("Verdana", Font.PLAIN, 13));
-                Abre.setForeground(azul);
+                /// Botones
+                Abre.setFont(new Font("Verdana", Font.PLAIN, 15));
+                Abre.setForeground(Color.white);
+                Cancelar.setFont(new Font("Verdana", Font.PLAIN, 15));
+                Cancelar.setForeground(Color.white);
                 //Añadimos los label al panel correspondiente del cliente
                 Panel.add(FolioFactura);
                 Panel.add(RFC);
@@ -2549,6 +2608,43 @@ public class Principal extends javax.swing.JFrame {
                 Panel.add(Correo);
                 Panel.add(Fecha);
                 Panel.add(Abre);
+                
+                FolioFactura.setLocation(15, 5);
+                FolioFactura.setSize(400, 45);
+                
+                RFC.setLocation(15, 25);
+                RFC.setSize(400, 45);
+                
+                Nombre.setLocation(15, 45);
+                Nombre.setSize(500, 45);
+                
+                Direccion.setLocation(15, 65);
+                Direccion.setSize(650, 45);
+                
+                Correo.setLocation(15, 85);
+                Correo.setSize(500, 45);               
+                
+                Fecha.setLocation(15, 105);
+                Fecha.setSize(500, 45);
+                /// Botones Tamaño y localizacion
+                if (Variables.Tipo.equalsIgnoreCase("Administrador")) { // Verificamos que sea un Administrador
+                    Panel.add(Cancelar);
+                    Abre.setLocation(185, 160);
+                    Abre.setSize(120, 30);
+                    Cancelar.setLocation(350, 160);
+                    Cancelar.setSize(120, 30);
+                    
+           /*         if(Variables.Comentario.equalsIgnoreCase("Factura Cancelada")){
+                        Cancelar.setEnabled(false);
+                    }*/
+                    
+                }else{
+                    Abre.setLocation(290, 160);
+                    Abre.setSize(120, 30);
+                }
+                
+                
+                
                 i++;
             }
         } catch (SQLException ex) {
@@ -2556,6 +2652,8 @@ public class Principal extends javax.swing.JFrame {
         }
         //Dependiendo de cuantos clientes se agregaron, se ajusta el tamaño del panel principal para que el scroll llegue hasta ahi
         jPanel11.setPreferredSize(new Dimension(jPanel11.getWidth(), Altura + 150));
+        
+       
     }
 //////////////////////////////////////////////////////////////////////
     //***
@@ -2655,6 +2753,27 @@ public class Principal extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+ 
+    public void FechaSistema(){
+        String Fecha , Hora;
+         //Instanciamos el objeto Calendar
+        //en fecha obtenemos la fecha y hora del sistema
+        Calendar fecha = new GregorianCalendar();
+        //Obtenemos el valor del año, mes, día,
+        //hora, minuto y segundo del sistema
+        //usando el método get y el parámetro correspondiente
+        int año = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH);
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        int hora = fecha.get(Calendar.HOUR_OF_DAY);
+        int minuto = fecha.get(Calendar.MINUTE);
+        int segundo = fecha.get(Calendar.SECOND);
+        
+        Fecha=(dia + "-" + (mes+1) + "-" + año);
+        Hora= hora+":"+minuto+":"+segundo;
+        
+        Variables.FechaSistema= Fecha+" "+Hora;
     }
        
     

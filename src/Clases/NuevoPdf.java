@@ -225,7 +225,7 @@ public class NuevoPdf {
         Paragraph csd = new Paragraph("No de serie del certificado CSD",smallBold);
         Paragraph codigo = new Paragraph("03490941023923",smallBold);
         Paragraph fecha = new Paragraph("Fecha y hora de emisión",smallBold);
-        Paragraph datosfecha = new Paragraph("2014-02-05 11:37:17",smallBold);
+        Paragraph datosfecha = new Paragraph(Variables.FechaSistema,smallBold);
         folioFactura.setAlignment(Element.ALIGN_CENTER);
         csd.setAlignment(Element.ALIGN_CENTER);
         codigo.setAlignment(Element.ALIGN_CENTER);
@@ -385,7 +385,7 @@ public class NuevoPdf {
         Paragraph sellodigital6 = new Paragraph("00000100000002133560001",smallBold);
         
         Paragraph sellodigital7 = new Paragraph("Fecha y hora de certificacion:",smallBold);
-        Paragraph sellodigital8 = new Paragraph("2014-02-05 11:37:17",small);
+        Paragraph sellodigital8 = new Paragraph(Variables.FechaFactura,small);
 
         Paragraph sellodigital9 = new Paragraph("Expedido en:",smallBold);
         Paragraph sellodigital10 = new Paragraph("CANCUN, QUINTANA ROO",small);

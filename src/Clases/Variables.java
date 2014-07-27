@@ -20,6 +20,7 @@ public class Variables {
     public static String ContraseñaUsuario;
     public static String CorreoUsuario;
     public static String ContraseñaCorreo;
+    public static String FechaSistema;
 
     /**
      * @return the idUsuario

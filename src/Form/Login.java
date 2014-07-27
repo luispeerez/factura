@@ -178,6 +178,7 @@ public class Login extends javax.swing.JFrame {
         if(Variables.ver==false){
             jPanel1.setVisible(true);
            Variables.ver=true;
+           
         }
         //Iniciar sesion
         else{
