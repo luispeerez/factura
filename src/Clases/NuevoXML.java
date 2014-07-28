@@ -83,12 +83,12 @@ public class NuevoXML {
             
             
             //Ventas
-            ArrayList<Integer> claves = new ArrayList<Integer>();
-            ArrayList<Integer> cantidades = new ArrayList<Integer>();
-            ArrayList<String> ums = new ArrayList<String>();
-            ArrayList<String> descripciones = new ArrayList<String>();
-            ArrayList<Double> preciosunitarios = new ArrayList<Double>();
-            ArrayList<Double> importes = new ArrayList<Double>();
+            ArrayList<Integer> claves = Variables.claves;
+            ArrayList<Integer> cantidades = Variables.cantidades;
+            ArrayList<String> ums = Variables.ums;
+            ArrayList<String> descripciones = Variables.descripciones;
+            ArrayList<Double> preciosunitarios = Variables.preciosunitarios;
+            ArrayList<Double> importes = Variables.importes;
             
             String[] nombresGenericos = {"balatas","retrovisores","rines"};
             for(int i= 0; i< 3;i++){

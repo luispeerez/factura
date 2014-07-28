@@ -1915,9 +1915,6 @@ public class Principal extends javax.swing.JFrame {
         jButton7.setEnabled(true);
         jButton24.setEnabled(true);
         jButton23.setEnabled(true);
-        jPanel17.setVisible(true);
-        jButton30.setLocation(470, 550);
-        jButton31.setLocation(270, 550);
     }//GEN-LAST:event_jButton30ActionPerformed
 
     static boolean modificar = false;
@@ -2556,11 +2553,11 @@ public class Principal extends javax.swing.JFrame {
               
                 JButton Abre = new JButton();
                 Abre.setText("Abrir");
-                Abre.setName(Comandos.getString("Folio"));
+                Abre.setName(Comandos.getString("idFacturaEmitida"));
                 Abre.setBackground(azul);
                 JButton Cancelar = new JButton();
                 Cancelar.setText("Cancelar");
-                Cancelar.setName(Comandos.getString("Folio"));
+                Cancelar.setName(Comandos.getString("idFacturaEmitida"));
                 Cancelar.setBackground(rojo);
                 MouseListener mlAbre = new MouseListener() {
                     @Override
@@ -2593,9 +2590,8 @@ public class Principal extends javax.swing.JFrame {
                                 Variables.FechaFactura = Comandos.getString("FechaEmision");
                                 Variables.FechaSistema= Comandos.getString("fechasistema");
                             }
-
-                            Variables.guardar = false;
                             Consulta();
+                            Variables.guardar = false;
                             NuevoPdf pdf = new NuevoPdf("Factura.pdf");
                             pdf.main();
                             File myfile = new File("Factura.pdf");
