@@ -70,13 +70,21 @@ public class Principal extends javax.swing.JFrame {
     static ResultSet Comandos, Comando, Comandoventas;
     JPanel Panelpdf= new JPanel();
     JScrollPane scrollcuadro = new JScrollPane();
-    boolean nueva=true, editarcliente2=false;
-    int idUsuarioPerfil;
+    boolean nueva=true, editarcliente2=false, presionado = false;
+    int idUsuarioPerfil, presionadoactual;
     static String CorreoUs;
     /**
      * Creates new form Principal
      */
     public Principal() {
+        File Imagenes = new File("Imagenes/Fotos Perfil");
+        File xml = new File("xml");
+        if(!Imagenes.exists()){
+            Imagenes.mkdir();
+        }
+        if(!xml.exists()){
+            xml.mkdir();
+        }
         initComponents();
         setLocationRelativeTo(null);
         FuncionTienda.CrearConexion();
@@ -84,6 +92,9 @@ public class Principal extends javax.swing.JFrame {
         Funcion.CrearConexion();
         st=Funcion.conexion();
         //****Nueva Factura
+        presionadoactual = 5;
+        Color azul = new Color(0, 182, 230);
+        jButton5.setBackground(azul);
         jPanel7.setVisible(false);
         jButton2.setVisible(false);
         jButton8.setVisible(false);
@@ -351,6 +362,11 @@ public class Principal extends javax.swing.JFrame {
                 jButton7MouseExited(evt);
             }
         });
+        jButton7.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jButton7MouseDragged(evt);
+            }
+        });
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -366,7 +382,7 @@ public class Principal extends javax.swing.JFrame {
         jButton23.setBackground(new java.awt.Color(44, 44, 44));
         jButton23.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jButton23.setForeground(new java.awt.Color(255, 255, 255));
-        jButton23.setText("Cerrar Sesón");
+        jButton23.setText("Cerrar Sesión");
         jButton23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jButton23.setContentAreaFilled(false);
         jButton23.setFocusPainted(false);
@@ -1070,6 +1086,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel16.setName(""); // NOI18N
         jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel2.setToolTipText("Haz click para cambiar tu foto de perfil.");
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
@@ -1122,9 +1139,16 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        presionado = true;
+        presionadoactual = 5;
+        Color gris = new Color(44, 44, 44);
+        jButton6.setBackground(gris);
+        jButton7.setBackground(gris);
+        jButton24.setBackground(gris);
+        jButton4.setBackground(gris);
         jPanel8.removeAll();
         jTabbedPane2.setSelectedIndex(0);
-        Color azul = new Color(0, 153, 255);
+        Color azul = new Color(0, 182, 230);
         jButton5.setBackground(azul);
         nueva=true;
         botonfalse();
@@ -1132,10 +1156,17 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        presionado = true;
+        presionadoactual = 6;
+        Color gris = new Color(44, 44, 44);
+        jButton5.setBackground(gris);
+        jButton7.setBackground(gris);
+        jButton24.setBackground(gris);
+        jButton4.setBackground(gris);
         jPanel8.removeAll();
         jPanel11.removeAll();
         jTabbedPane2.setSelectedIndex(1);
-        Color azul = new Color(0, 153, 255);
+        Color azul = new Color(0, 182, 230);
         jButton6.setBackground(azul);
         PanelFacturas();
         botonfalse();
@@ -1144,9 +1175,16 @@ public class Principal extends javax.swing.JFrame {
     //Panel de Clientes Registrados
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
             // TODO add your handling code here:
+        presionado = true;
+        presionadoactual = 7;
+        Color gris = new Color(44, 44, 44);
+        jButton5.setBackground(gris);
+        jButton6.setBackground(gris);
+        jButton24.setBackground(gris);
+        jButton4.setBackground(gris);
         jPanel8.removeAll();
         jTabbedPane2.setSelectedIndex(2);
-        Color azul = new Color(0, 153, 255);
+        Color azul = new Color(0, 182, 230);
         jButton7.setBackground(azul);
         nueva=false;
         PanelClientes();
@@ -1157,9 +1195,16 @@ public class Principal extends javax.swing.JFrame {
     
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        presionado = true;
+        presionadoactual = 4;
+        Color gris = new Color(44, 44, 44);
+        jButton5.setBackground(gris);
+        jButton6.setBackground(gris);
+        jButton7.setBackground(gris);
+        jButton24.setBackground(gris);
         jPanel8.removeAll();
         jTabbedPane2.setSelectedIndex(3);
-        Color azul = new Color(0, 153, 255);
+        Color azul = new Color(0, 182, 230);
         jButton4.setBackground(azul);
         PanelUsuarios();
         botonfalse();
@@ -1171,14 +1216,22 @@ public class Principal extends javax.swing.JFrame {
 //***************Buton  nueva Factura**********************************//////////////
     private void jButton5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseEntered
         // TODO add your handling code here:
+        if(presionadoactual != 5){
+            presionado = false;
+        }
+        else{
+            presionado = true;
+        }
         Color azul = new Color(0, 182, 230);
         jButton5.setBackground(azul);
     }//GEN-LAST:event_jButton5MouseEntered
 
     private void jButton5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseExited
         // TODO add your handling code here:
-        Color gris = new Color(44, 44, 44);
-        jButton5.setBackground(gris);
+        if(presionado != true){
+            Color gris = new Color(44, 44, 44);
+            jButton5.setBackground(gris);
+        }     
     }//GEN-LAST:event_jButton5MouseExited
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
@@ -1188,18 +1241,36 @@ public class Principal extends javax.swing.JFrame {
     ///*****************button Azul    
     private void jButton6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseEntered
         // TODO add your handling code here:
+        if(presionadoactual != 6){
+            presionado = false;
+        }
+        else{
+            presionado = true;
+        }
         Color azul = new Color(0, 182, 230);
         jButton6.setBackground(azul);
     }//GEN-LAST:event_jButton6MouseEntered
 
     private void jButton7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseEntered
         // TODO add your handling code here:
+        if(presionadoactual != 7){
+            presionado = false;
+        }
+        else{
+            presionado = true;
+        }
         Color azul = new Color(0, 182, 230);
         jButton7.setBackground(azul);
     }//GEN-LAST:event_jButton7MouseEntered
 
     private void jButton4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseEntered
         // TODO add your handling code here:
+        if(presionadoactual != 4){
+            presionado = false;
+        }
+        else{
+            presionado = true;
+        }
         Color azul = new Color(0, 182, 230);
         jButton4.setBackground(azul);
     }//GEN-LAST:event_jButton4MouseEntered
@@ -1207,20 +1278,26 @@ public class Principal extends javax.swing.JFrame {
 //******************** Button Gris 
     private void jButton6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseExited
         // TODO add your handling code here:
-        Color gris = new Color(44, 44, 44);
-        jButton6.setBackground(gris);
+        if(presionado != true){
+            Color gris = new Color(44, 44, 44);
+            jButton6.setBackground(gris);
+        }   
     }//GEN-LAST:event_jButton6MouseExited
 
     private void jButton7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseExited
         // TODO add your handling code here:
-        Color gris = new Color(44, 44, 44);
-        jButton7.setBackground(gris);
+        if(presionado != true){
+            Color gris = new Color(44, 44, 44);
+            jButton7.setBackground(gris);
+        }   
     }//GEN-LAST:event_jButton7MouseExited
 
     private void jButton4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseExited
         // TODO add your handling code here:
-        Color gris = new Color(44, 44, 44);
-        jButton4.setBackground(gris);
+        if(presionado != true){
+            Color gris = new Color(44, 44, 44);
+            jButton4.setBackground(gris);
+        }   
     }//GEN-LAST:event_jButton4MouseExited
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1424,7 +1501,7 @@ public class Principal extends javax.swing.JFrame {
             Funcion.Update(st, Comando);
             JOptionPane.showMessageDialog(null, "Factura creada");
 
-            NuevoXML xml = new NuevoXML("factura" + idnota + ".xml");
+            NuevoXML xml = new NuevoXML("xml/factura" + idnota + ".xml");
             xml.main();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -1480,7 +1557,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         Inicio();
-
     }//GEN-LAST:event_jButton11ActionPerformed
     //************** Cancelar Cambios en los datos del Cliente 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
@@ -1578,6 +1654,11 @@ public class Principal extends javax.swing.JFrame {
 //////////////////////////////////////////////////////////////////
     //******* BOTON DE VERIFICAR NOTA POR CLIENTE
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        presionadoactual = 5;
+        Color azul = new Color(0, 182, 230);
+        jButton5.setBackground(azul);
+        Color gris = new Color(44, 44, 44);
+        jButton7.setBackground(gris);
         try {
             Variables.Comentario = null;
             int tamaño = 0, y = 0;
@@ -1755,12 +1836,14 @@ public class Principal extends javax.swing.JFrame {
         Inicio();
         jPanel8.removeAll();
         jTabbedPane2.setSelectedIndex(2);
-        Color azul = new Color(0, 153, 255);
+        presionadoactual = 7;
+        Color azul = new Color(0, 182, 230);
         jButton7.setBackground(azul);
         nueva = false;
         PanelClientes();
         botonfalse();
-
+        Color gris = new Color(44, 44, 44);
+        jButton5.setBackground(gris);
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
@@ -1878,16 +1961,31 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton24MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton24MouseEntered
+       if(presionadoactual != 24){
+            presionado = false;
+        }
+        else{
+            presionado = true;
+        }
         Color azul = new Color(0, 182, 230);
         jButton24.setBackground(azul);
     }//GEN-LAST:event_jButton24MouseEntered
 
     private void jButton24MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton24MouseExited
-        Color gris = new Color(44, 44, 44);
-        jButton24.setBackground(gris);
+        if(presionado != true){
+            Color gris = new Color(44, 44, 44);
+            jButton24.setBackground(gris);
+        }   
     }//GEN-LAST:event_jButton24MouseExited
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        presionado = true;
+        presionadoactual = 24;
+        Color gris = new Color(44, 44, 44);
+        jButton5.setBackground(gris);
+        jButton6.setBackground(gris);
+        jButton7.setBackground(gris);
+        jButton4.setBackground(gris);
         jTabbedPane2.setSelectedIndex(5);
         jButton4.setEnabled(false);
         jButton5.setEnabled(false);
@@ -1897,6 +1995,8 @@ public class Principal extends javax.swing.JFrame {
         jButton23.setEnabled(false);
         PerfilUsuario(Variables.idUsuario);
         botonfalse();
+        Color azul = new Color(0, 182, 230);
+        jButton24.setBackground(azul);
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jTextField26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField26ActionPerformed
@@ -1904,6 +2004,10 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField26ActionPerformed
 
     private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
+        presionado = true;
+        presionadoactual = 5;
+        Color azul = new Color(0, 182, 230);
+        jButton5.setBackground(azul);
         jPanel8.removeAll();
         jTabbedPane2.setSelectedIndex(0);
         nueva = true;
@@ -1914,6 +2018,8 @@ public class Principal extends javax.swing.JFrame {
         jButton6.setEnabled(true);
         jButton7.setEnabled(true);
         jButton24.setEnabled(true);
+        Color gris = new Color(44, 44, 44);
+        jButton24.setBackground(gris);
         jButton23.setEnabled(true);
     }//GEN-LAST:event_jButton30ActionPerformed
 
@@ -2005,6 +2111,10 @@ public class Principal extends javax.swing.JFrame {
         }
         PerfilUsuario(Variables.idUsuario);
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jButton7MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseDragged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7MouseDragged
 ////////////////////////////////////////////////////////////////////
 // **************** METODOS *************    
     
@@ -2027,7 +2137,7 @@ public class Principal extends javax.swing.JFrame {
                Icon IconoEscalado = new ImageIcon(ImagenEscalada);
                jLabel2.setIcon(IconoEscalado);
            } else{
-               ImageIcon Imagen = new ImageIcon("Imagenes/Fotos Perfil/Default.png");
+               ImageIcon Imagen = new ImageIcon(getClass().getResource("/Imagen/Default.png"));
                Image ImagenEscalada = Imagen.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
                Icon IconoEscalado = new ImageIcon(ImagenEscalada);
                jLabel2.setIcon(IconoEscalado);
@@ -2246,7 +2356,7 @@ public class Principal extends javax.swing.JFrame {
                 JLabel Correo = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Correo: " + Comandos.getString("correo")));
                 VERMAS = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:450px;'>%s</div><html>", Panel.getWidth(), "<html><u>Ver mas</u></html>)"));
                System.out.println(Panel.getHeight());
-                VERMAS.setToolTipText(String.valueOf(Comandos.getInt("idCliente")));
+                VERMAS.setName(String.valueOf(Comandos.getInt("idCliente")));
                 VERMAS.setCursor(null);
                 MouseListener ml = new MouseListener() {
                     @Override
@@ -2273,7 +2383,7 @@ public class Principal extends javax.swing.JFrame {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         JLabel source = (JLabel) e.getSource();
-                        id = Integer.parseInt(source.getToolTipText());
+                        id = Integer.parseInt(source.getName());
                         jTabbedPane2.setSelectedIndex(4);
                         jButton16.setVisible(true);
                         jButton17.setVisible(true);
@@ -2349,7 +2459,7 @@ public class Principal extends javax.swing.JFrame {
                     Icon IconoEscalado = new ImageIcon(ImagenEscalada);
                     Foto.setIcon(IconoEscalado);
                 } else {
-                    ImageIcon Imagen = new ImageIcon("Imagenes/Fotos Perfil/Default.png");
+                    ImageIcon Imagen = new ImageIcon(getClass().getResource("/Imagen/Default.png"));
                     Image ImagenEscalada = Imagen.getImage().getScaledInstance(Foto.getWidth(), Foto.getHeight(), Image.SCALE_SMOOTH);
                     Icon IconoEscalado = new ImageIcon(ImagenEscalada);
                     Foto.setIcon(IconoEscalado);
@@ -2389,6 +2499,9 @@ public class Principal extends javax.swing.JFrame {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        presionadoactual = 24;
+                        Color azul = new Color(0, 182, 230);
+                        jButton24.setBackground(azul);
                         JButton source = (JButton) e.getSource();
                         System.out.println(source.getName());
                         jPanel17.setVisible(false);
@@ -2396,6 +2509,8 @@ public class Principal extends javax.swing.JFrame {
                         jButton31.setLocation(270, 480);
                         jTabbedPane2.setSelectedIndex(5);
                         PerfilUsuario(Integer.parseInt(source.getName()));
+                        Color gris = new Color(44, 44, 44);
+                        jButton4.setBackground(gris);
                     }
                 };
                 MouseListener mlEliminar = new MouseListener() {
@@ -2763,9 +2878,9 @@ public class Principal extends javax.swing.JFrame {
             Variables.ums.clear();
             
             Comandos = Funcion.Select(st, "Select *from factura_emitida WHERE idFacturaEmitida=" + idFacClien + ";");// Consulta el RFC
-
+            int folio_nota = 0;
             while (Comandos.next()) {
-                
+                folio_nota = Comandos.getInt("Folio");
                 Variables.idCliente = (Integer.parseInt(Comandos.getObject("idCliente") + ""));
                 Variables.Comentario = ((String) Comandos.getObject("Observaciones"));
             }
@@ -2785,7 +2900,7 @@ public class Principal extends javax.swing.JFrame {
             }
             //Funcion.CerrarConsulta(Comandos);
 
-            Comando = FuncionTienda.Select(stienda, "Select *from nota WHERE folio_nota=" + idFacClien + ";"); // Consulta la nota
+            Comando = FuncionTienda.Select(stienda, "Select *from nota WHERE folio_nota=" + folio_nota + ";"); // Consulta la nota
 
             while (Comando.next()) {
                 Variables.suma = ((Double) Double.parseDouble(Comando.getObject("suma") + ""));
@@ -2798,7 +2913,7 @@ public class Principal extends javax.swing.JFrame {
             //FuncionTienda.CerrarConsulta(Comando);
 
             Comandoventas = FuncionTienda.Select(stienda, "Select *from venta WHERE clave_nota="
-                    + idFacClien + ";");
+                    + folio_nota + ";");
             while (Comandoventas.next()) {
                 Variables.claves.add(Integer.parseInt(Comandoventas.getObject("clave") + ""));
                 Variables.cantidades.add(Integer.parseInt(Comandoventas.getObject("cantidad") + ""));

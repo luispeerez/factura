@@ -18,7 +18,7 @@ public class Funcion {
    private static Connection conexion = null; 
     private static String bd = "facturas"; // Nombre de BD. 
     private static String user = "root"; // Usuario de BD. 
-    private static String password = "12345"; // Password de BD. 
+    private static String password = "leonardobd345"; // Password de BD. 
     // Driver para MySQL en este caso. 
     private static String driver = "com.mysql.jdbc.Driver"; 
     // Ruta del servidor. 
