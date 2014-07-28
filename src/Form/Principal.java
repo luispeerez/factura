@@ -1223,11 +1223,14 @@ public class Principal extends javax.swing.JFrame {
         jButton4.setBackground(gris);
     }//GEN-LAST:event_jButton4MouseExited
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     //*******************Button Validar datos ***************************//   
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         
+        Variables.Comentario=null;
+        int tamaño = 0, y = 0;
+        boolean correcto=true;
+        String[] Cancelada;
         if (jTextField1.getText().equalsIgnoreCase("") || jTextField2.getText().equalsIgnoreCase("")) {
             Object[] options = {"Aceptar"};
             JOptionPane.showOptionDialog(null, "¡Datos incompletos", "Aviso",
@@ -1248,6 +1251,31 @@ public class Principal extends javax.swing.JFrame {
                     }
                     //FuncionTienda.CerrarConsulta(Comando);
                     if (idnota > 0) {
+
+                        Comandos = Funcion.Select(st, "Select count(*) from factura_emitida;");// Tamaño de registros hechos
+                        while (Comandos.next()) {
+                            tamaño = Integer.parseInt(Comandos.getInt("count(*)") + "");
+                        }
+
+                        Cancelada = new String[tamaño];
+                        Comandos = Funcion.Select(st, "Select *from factura_emitida WHERE Folio="
+                                + idnota + ";");// Tamaño de registros hechos
+                        
+                        while (Comandos.next()) {
+                            Cancelada[y] = (Comandos.getString("Observaciones"));
+                            System.out.println(Cancelada[y]);
+                            y++;
+                        }
+
+                        for(int ind=0; ind<y;ind++){
+                            if(Cancelada[ind]==null || Cancelada[ind].equalsIgnoreCase("Factura Cancelada")){
+                                correcto=true;
+                            }else{
+                                correcto=false;
+                                break;
+                            }
+                        }                       
+                        if(correcto==true){
                         EnviarSAT.setVisible(true);
                         jButton3.setVisible(true);
                         jButton11.setVisible(true);
@@ -1264,7 +1292,11 @@ public class Principal extends javax.swing.JFrame {
                         FechaSistema();
                         factura();
                         CrearPanelPDF();
-    
+                        }else{
+                            JOptionPane.showMessageDialog(null, "¡La nota ya fue facturada!");
+                        }
+                        
+                        
                     } else {
                         JOptionPane.showMessageDialog(null, "¡La nota no existe!");
                     }
@@ -1373,33 +1405,31 @@ public class Principal extends javax.swing.JFrame {
 ////////////////////////////////////////////////////////////////////////////////////
 /////////////////********** Boton de agregar la factura    
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        try{
-            
+        try {
             Inicio();
             String folio_fiscal = "1GR523GTEDQY";
             String serie_csd = "GHVN24501JKTU1";
             String lugar = "Cancun Quintana Roo, Mexico";
             String serie = "5E34";
             String Comando = null;
-            Comando = "INSERT INTO factura_emitida  VALUES ("+Variables.idCliente+
-                    ","+idnota+
-                    ",'"+ folio_fiscal+
-                    "','"+ serie_csd + 
-                    "',now()"+ 
-                    ",'"+ lugar + 
-                    "',"+ idnota + 
-                    ",'" + serie + 
-                    "','" + Variables.Comentario+ "'"                   
-                    +",'"+Variables.FechaSistema+"');";       
+            Comando = "INSERT INTO factura_emitida  VALUES (" + Variables.idCliente
+                    + ", default,'" + folio_fiscal
+                    + "','" + serie_csd
+                    + "',now()"
+                    + ",'" + lugar
+                    + "'," + idnota
+                    + ",'" + serie
+                    + "','" + Variables.Comentario + "'"
+                    + ",'" + Variables.FechaSistema + "');";
             Funcion.Update(st, Comando);
-                JOptionPane.showMessageDialog(null, "Factura creada");
-    
-                NuevoXML xml = new NuevoXML("factura"+idnota+".xml");
-                xml.main();        
-        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Factura creada");
+
+            NuevoXML xml = new NuevoXML("factura" + idnota + ".xml");
+            xml.main();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -1548,14 +1578,18 @@ public class Principal extends javax.swing.JFrame {
 //////////////////////////////////////////////////////////////////
     //******* BOTON DE VERIFICAR NOTA POR CLIENTE
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        try {
+            Variables.Comentario = null;
+            int tamaño = 0, y = 0;
+            boolean correcto = true;
+            String[] Cancelada;
+            if (jTextField19.getText().equalsIgnoreCase("")) {
+                Object[] options = {"Aceptar"};
+                JOptionPane.showOptionDialog(null, "Ingrese la nota de venta", "Aviso",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                        null, options, options[0]);
+            } else {
 
-        if (jTextField19.getText().equalsIgnoreCase("")) {
-            Object[] options = {"Aceptar"};
-            JOptionPane.showOptionDialog(null, "Ingrese la nota de venta", "Aviso",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-                    null, options, options[0]);
-        } else {
-            try {
                 Comandos = Funcion.Select(st, "Select *from cliente WHERE RFC='" + jTextField12.getText() + "';");// Consulta el RFC
                 while (Comandos.next()) {
                     idclientes = Integer.parseInt(Comandos.getObject("idCliente") + "");
@@ -1566,37 +1600,62 @@ public class Principal extends javax.swing.JFrame {
                     idnota = Integer.parseInt(Comando.getObject("folio_nota") + "");
                 }
                 //FuncionTienda.CerrarConsulta(Comando);
-                if (idnota > 0) {                  
-                    EnviarSAT1.setVisible(true);
-                    jButton18.setVisible(true);
-                    jButton15.setVisible(true);
-                    jButton16.setVisible(false);
-                    jButton17.setVisible(false);
-                    jButtonEditar.setVisible(false);
-                    jPanel9.setVisible(false);
-                    jPanel10.setVisible(false);
-                    // Botones principales;
-                    jButton4.setEnabled(false);
-                    jButton5.setEnabled(false);
-                    jButton6.setEnabled(false);
-                    jButton7.setEnabled(false);
-                    jButton24.setEnabled(false);
-                    jButton23.setEnabled(false);
-                    //Metodo para generar factura
-                    facturaClientes();
-                    CrearPanelPDF();
+                if (idnota > 0) {
 
+                    Comandos = Funcion.Select(st, "Select count(*) from factura_emitida;");// Tamaño de registros hechos
+                    while (Comandos.next()) {
+                        tamaño = Integer.parseInt(Comandos.getInt("count(*)") + "");
+                    }
+
+                    Cancelada = new String[tamaño];
+                    Comandos = Funcion.Select(st, "Select *from factura_emitida WHERE Folio="
+                            + idnota + ";");// Tamaño de registros hechos
+
+                    while (Comandos.next()) {
+                        Cancelada[y] = (Comandos.getString("Observaciones"));
+                        System.out.println(Cancelada[y]);
+                        y++;
+                    }
+
+                    for (int ind = 0; ind < y; ind++) {
+                        if (Cancelada[ind] == null || Cancelada[ind].equalsIgnoreCase("Factura Cancelada")) {
+                            correcto = true;
+                        } else {
+                            correcto = false;
+                            break;
+                        }
+                    }
+                    if (correcto == true) {
+                        EnviarSAT1.setVisible(true);
+                        jButton18.setVisible(true);
+                        jButton15.setVisible(true);
+                        jButton16.setVisible(false);
+                        jButton17.setVisible(false);
+                        jButtonEditar.setVisible(false);
+                        jPanel9.setVisible(false);
+                        jPanel10.setVisible(false);
+                        // Botones principales;
+                        jButton4.setEnabled(false);
+                        jButton5.setEnabled(false);
+                        jButton6.setEnabled(false);
+                        jButton7.setEnabled(false);
+                        jButton24.setEnabled(false);
+                        jButton23.setEnabled(false);
+                        //Metodo para generar factura
+                        FechaSistema();
+                        facturaClientes();
+                        CrearPanelPDF();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "¡La nota ya fue facturada!");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "¡La nota no existe!");
                 }
-
-            } catch (Exception ex) {
-                //JOptionPane.showMessageDialog(this, "Error en los datos");
-                System.out.println(ex.getMessage());
             }
-
+        } catch (Exception ex) {
+            //JOptionPane.showMessageDialog(this, "Error en los datos");
+            System.out.println(ex.getMessage());
         }
-
         
     }//GEN-LAST:event_jButton17ActionPerformed
 
@@ -1758,22 +1817,22 @@ public class Principal extends javax.swing.JFrame {
             String serie_csd = "GHVN24501JKTU1";
             String lugar = "Cancun Quintana Roo, Mexico";
             String serie = "5E34";
-            String observaciones ="";
             String Comando = null;
-            Comando = "INSERT INTO factura_emitida  VALUES ("+Variables.idCliente+
-                    ","+idnota+
-                    ",'"+ folio_fiscal+
-                    "','"+ serie_csd + 
-                    "',now()"+ 
-                    ",'"+ lugar + 
-                    "',"+ idnota + 
-                    ",'" + serie + 
-                    "','" + observaciones+ "'"                   
-                    +" );";
-       
+            Comando = "INSERT INTO factura_emitida  VALUES (" + Variables.idCliente
+                    + ",default,'" + folio_fiscal
+                    + "','" + serie_csd
+                    + "',now()"
+                    + ",'" + lugar
+                    + "'," + idnota
+                    + ",'" + serie
+                    + "','" + Variables.Comentario + "'"
+                    + ",'" + Variables.FechaSistema + "');";
             Funcion.Update(st, Comando);
             JOptionPane.showMessageDialog(null, "Factura creada");
-        }catch(Exception e){
+
+            NuevoXML xml = new NuevoXML("factura" + idnota + ".xml");
+            xml.main();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jButton22ActionPerformed
@@ -2113,7 +2172,7 @@ public class Principal extends javax.swing.JFrame {
         SwingController controller = new SwingController();
         PropertiesManager properties = new PropertiesManager(System.getProperties(), ResourceBundle.getBundle(PropertiesManager.DEFAULT_MESSAGE_BUNDLE));
 //properties.setBoolean(PropertiesManager.PROPERTY_VIEWPREF_HIDETOOLBAR, Boolean.TRUE);
-        properties.setBoolean(PropertiesManager.PROPERTY_SHOW_UTILITY_PRINT, Boolean.FALSE);
+        properties.setBoolean(PropertiesManager.PROPERTY_SHOW_UTILITY_PRINT, Boolean.TRUE);
         properties.setBoolean(PropertiesManager.PROPERTY_SHOW_UTILITY_SEARCH, Boolean.FALSE);
         properties.setBoolean(PropertiesManager.PROPERTY_SHOW_UTILITY_OPEN, Boolean.FALSE);
         properties.setBoolean(PropertiesManager.PROPERTY_SHOW_TOOLBAR_FIT, Boolean.FALSE);
@@ -2503,7 +2562,7 @@ public class Principal extends javax.swing.JFrame {
                 Cancelar.setText("Cancelar");
                 Cancelar.setName(Comandos.getString("Folio"));
                 Cancelar.setBackground(rojo);
-                MouseListener mlEditar = new MouseListener() {
+                MouseListener mlAbre = new MouseListener() {
                     @Override
                     public void mouseReleased(MouseEvent e) {
                         //System.out.println("Released!");
@@ -2539,7 +2598,6 @@ public class Principal extends javax.swing.JFrame {
                             Consulta();
                             NuevoPdf pdf = new NuevoPdf("Factura.pdf");
                             pdf.main();
-
                             File myfile = new File("Factura.pdf");
 
                             Desktop.getDesktop().open(myfile);
@@ -2550,7 +2608,7 @@ public class Principal extends javax.swing.JFrame {
 
                     }
                 };
-                MouseListener mlEliminar = new MouseListener() {
+                MouseListener mlCancelar = new MouseListener() {
                     @Override
                     public void mouseReleased(MouseEvent e) {
                         //System.out.println("Released!");
@@ -2574,14 +2632,17 @@ public class Principal extends javax.swing.JFrame {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         JButton source = (JButton) e.getSource();
-                        System.out.println(source.getName());
+                        Variables.Cancelar = Integer.parseInt(source.getName());
+                        String Comando = "UPDATE factura_emitida SET Observaciones='Factura Cancelada' WHERE idFacturaEmitida=" + Variables.Cancelar
+                                + ";";
+                        Funcion.Update(st, Comando);
                         jPanel11.removeAll();
                         PanelFacturas();
                         jPanel11.repaint();
                     }
                 };
-                Abre.addMouseListener(mlEditar);
-                Cancelar.addMouseListener(mlEliminar);
+                Abre.addMouseListener(mlAbre);
+                Cancelar.addMouseListener(mlCancelar);
                 //Fuente del texto;
                 FolioFactura.setFont(new Font("Verdana", Font.PLAIN, 13));
                 FolioFactura.setForeground(gris);
@@ -2633,12 +2694,14 @@ public class Principal extends javax.swing.JFrame {
                     Abre.setSize(120, 30);
                     Cancelar.setLocation(350, 160);
                     Cancelar.setSize(120, 30);
-                    
-           /*         if(Variables.Comentario.equalsIgnoreCase("Factura Cancelada")){
-                        Cancelar.setEnabled(false);
-                    }*/
-                    
-                }else{
+
+                    if (Variables.Comentario.equalsIgnoreCase("Factura Cancelada")) {
+                        Cancelar.setVisible(false);
+                        Abre.setLocation(290, 160);
+                        Abre.setSize(120, 30);
+                    }
+
+                } else {
                     Abre.setLocation(290, 160);
                     Abre.setSize(120, 30);
                 }
@@ -2651,7 +2714,7 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
         //Dependiendo de cuantos clientes se agregaron, se ajusta el tamaño del panel principal para que el scroll llegue hasta ahi
-        jPanel11.setPreferredSize(new Dimension(jPanel11.getWidth(), Altura + 150));
+        jPanel11.setPreferredSize(new Dimension(jPanel11.getWidth(), Altura + 300));
         
        
     }
@@ -2775,8 +2838,7 @@ public class Principal extends javax.swing.JFrame {
         
         Variables.FechaSistema= Fecha+" "+Hora;
     }
-       
-    
+
     /**
      * @param args the command line arguments
      */
@@ -2876,7 +2938,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
+    public static javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel15;
@@ -2889,7 +2951,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTabbedPane jTabbedPane2;
+    public static javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -2917,10 +2979,5 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
-
-
-
-
-
 
 }

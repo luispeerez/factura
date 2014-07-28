@@ -351,11 +351,11 @@ public class NuevoPdf {
         table.addCell(c2); 
         
         PdfPCell c3 = new PdfPCell();
-        Paragraph ns = new Paragraph("$"+String.valueOf(Variables.getSuma()),small);
-        Paragraph nd = new Paragraph("$"+String.valueOf(Variables.getDescuento()),small);
-        Paragraph nst = new Paragraph("$"+String.valueOf(Variables.getSubtotal()),small);
-        Paragraph niv = new Paragraph("$"+String.valueOf(Variables.getIva()),small);
-        Paragraph nt = new Paragraph("$"+String.valueOf(Variables.getTotal()),smallBold);
+        Paragraph ns = new Paragraph("$"+String.valueOf(Variables.suma),small);
+        Paragraph nd = new Paragraph("$"+String.valueOf(Variables.descuento),small);
+        Paragraph nst = new Paragraph("$"+String.valueOf(Variables.subtotal),small);
+        Paragraph niv = new Paragraph("$"+String.valueOf(Variables.iva),small);
+        Paragraph nt = new Paragraph("$"+String.valueOf(Variables.total),smallBold);
 
         Paragraph[] totales = {ns,nd,nst,niv,nt};    
         for(int i = 0;i<totales.length;i++){

@@ -21,6 +21,7 @@ public class Variables {
     public static String CorreoUsuario;
     public static String ContraseñaCorreo;
     public static String FechaSistema;
+    public static int Cancelar;
 
     /**
      * @return the idUsuario
@@ -459,6 +460,20 @@ public class Variables {
      */
     public static void setContraseñaCorreo(String aContraseñaCorreo) {
         ContraseñaCorreo = aContraseñaCorreo;
+    }
+
+    /**
+     * @return the Cancelar
+     */
+    public static int getCancelar() {
+        return Cancelar;
+    }
+
+    /**
+     * @param aCancelar the Cancelar to set
+     */
+    public static void setCancelar(int aCancelar) {
+        Cancelar = aCancelar;
     }
 
 
