@@ -47,7 +47,7 @@ public class Variables {
     public static String municipio;
     public static String Estado;
     public static String Correo;
-    public static int  codpostal;
+    public static String  codpostal;
     
 //*************  Nota ****************************
     public static Double suma;
@@ -171,14 +171,14 @@ public class Variables {
     /**
      * @return the codpostal
      */
-    public static int getCodpostal() {
+    public static String getCodpostal() {
         return codpostal;
     }
 
     /**
      * @param aCodpostal the codpostal to set
      */
-    public static void setCodpostal(int aCodpostal) {
+    public static void setCodpostal(String aCodpostal) {
         codpostal = aCodpostal;
     }
 

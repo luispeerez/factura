@@ -1303,7 +1303,8 @@ public class Principal extends javax.swing.JFrame {
 
     //*******************Button Validar datos ***************************//   
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // TODO addd your handling code here:
+        idclientes = 0;
         Variables.Comentario=null;
         int tamaño = 0, y = 0;
         boolean correcto=true;
@@ -1322,7 +1323,7 @@ public class Principal extends javax.swing.JFrame {
                         null, options, options[0]);
             } else {
                 try {
-                    Comandos = Funcion.Select(st, "Select *from cliente WHERE RFC='" + jTextField2.getText() + "';");// Consulta el RFC
+                    Comandos = Funcion.Select(st, "Select * from cliente WHERE RFC='" + jTextField2.getText() + "';");// Consulta el RFC
                     while (Comandos.next()) {
                         idclientes = Integer.parseInt(Comandos.getObject("idCliente") + "");
                         Variables.setIdCliente(idclientes);
@@ -1386,6 +1387,7 @@ public class Principal extends javax.swing.JFrame {
 
                     } else {
                         jPanel7.setVisible(true);
+                        jButton1.setEnabled(false);
                         jTextField5.setText(jTextField2.getText());
                         jTextField5.setEditable(false);
                         jButton2.setVisible(true);
@@ -1416,7 +1418,7 @@ public class Principal extends javax.swing.JFrame {
                 Comando = "INSERT INTO cliente VALUES (default,'" + jTextField5.getText() + "','"
                         + jTextField6.getText() + "','" + jTextField10.getText() + "','"
                         + jTextField9.getText() + "','" + jTextField7.getText()
-                        + "'," + jTextField8.getText() + ",'" + jTextField3.getText() + "','"
+                        + "','" + jTextField8.getText() + "','" + jTextField3.getText() + "','"
                         + jTextField11.getText() + "'); ";
                 Funcion.Update(st, Comando);
                 //*******Limpiar
@@ -1432,7 +1434,8 @@ public class Principal extends javax.swing.JFrame {
                 jButton2.setVisible(false);
                 jPanel6.setVisible(false);
                 jButton1.setVisible(false);
-
+                jButton1.setEnabled(true);
+                
                 Object[] options = {"Aceptar"};
                 JOptionPane.showOptionDialog(null, "¡Exito!", "Nuevo cliente",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
@@ -1443,11 +1446,13 @@ public class Principal extends javax.swing.JFrame {
                 jButton10.setVisible(true);
                 jButton3.setVisible(true);
                 jButton11.setVisible(true);
-
+                FechaSistema();
+                factura();
+                CrearPanelPDF();
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error en los datos");
+            JOptionPane.showMessageDialog(null, "Error en los datos" + e.getMessage());
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -1496,6 +1501,7 @@ public class Principal extends javax.swing.JFrame {
             String lugar = "Cancun Quintana Roo, Mexico";
             String serie = "5E34";
             String Comando = null;
+            int idFactura = 0;
             Comando = "INSERT INTO factura_emitida  VALUES (" + Variables.idCliente
                     + ", default,'" + folio_fiscal
                     + "','" + serie_csd
@@ -1507,8 +1513,11 @@ public class Principal extends javax.swing.JFrame {
                     + ",'" + Variables.FechaSistema + "');";
             Funcion.Update(st, Comando);
             JOptionPane.showMessageDialog(null, "Factura creada");
-
-            NuevoXML xml = new NuevoXML("xml/factura" + idnota + ".xml");
+            Comandos = Funcion.Select(st, "SELECT idFacturaEmitida FROM factura_emitida WHERE Folio =" + idnota + "");
+            if(Comandos.next()){
+                idFactura = Comandos.getInt("idFacturaEmitida");
+            }
+            NuevoXML xml = new NuevoXML("xml/factura" + idFactura + ".xml");
             xml.main();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -1599,7 +1608,7 @@ public class Principal extends javax.swing.JFrame {
                 Variables.municipio = jTextField9.getText();
                 Variables.delegacion = jTextField11.getText();
                 Variables.Correo = jTextField3.getText();
-                Variables.codpostal = Integer.parseInt(jTextField8.getText());
+                Variables.codpostal = jTextField8.getText();
 
                 Comando = "UPDATE cliente SET NombreCliente='" + jTextField6.getText() + "',Direccion='"
                         + jTextField10.getText() + "',Estado='" + jTextField7.getText() + "',Municipio='"
@@ -1766,7 +1775,7 @@ public class Principal extends javax.swing.JFrame {
                 Variables.municipio = jTextField17.getText();
                 Variables.delegacion = jTextField18.getText();
                 Variables.Correo = jTextField4.getText();
-                Variables.codpostal = Integer.parseInt(jTextField16.getText());
+                Variables.codpostal = jTextField16.getText();
                 
 
                 Comando = "UPDATE cliente SET NombreCliente='" + jTextField14.getText()+ "',Direccion='"
@@ -2179,7 +2188,7 @@ public class Principal extends javax.swing.JFrame {
                 Variables.delegacion = ((String) Comandos.getObject("Localidad"));
                 Variables.municipio = ((String) Comandos.getObject("municipio"));
                 Variables.Estado = ((String) Comandos.getObject("Estado"));
-                Variables.codpostal = (Integer.parseInt(Comandos.getObject("codpostal") + ""));
+                Variables.codpostal = (Comandos.getObject("codpostal") + "");
                 Variables.Correo = ((String) Comandos.getObject("correo"));
             }
             //Funcion.CerrarConsulta(Comandos);
@@ -2231,7 +2240,7 @@ public class Principal extends javax.swing.JFrame {
                 Variables.delegacion = ((String) Comandos.getObject("Localidad"));
                 Variables.municipio = ((String) Comandos.getObject("municipio"));
                 Variables.Estado = ((String) Comandos.getObject("Estado"));
-                Variables.codpostal = (Integer.parseInt(Comandos.getObject("codpostal") + ""));
+                Variables.codpostal = (Comandos.getObject("codpostal") + "");
                 Variables.Correo = ((String) Comandos.getObject("correo"));
             }
             //Funcion.CerrarConsulta(Comandos);
@@ -2597,7 +2606,7 @@ public class Principal extends javax.swing.JFrame {
                 Variables.delegacion = ((String) Comandos.getObject("Localidad"));
                 Variables.municipio = ((String) Comandos.getObject("municipio"));
                 Variables.Estado = ((String) Comandos.getObject("Estado"));
-                Variables.codpostal = (Integer.parseInt(Comandos.getObject("codpostal") + ""));
+                Variables.codpostal = (Comandos.getObject("codpostal") + "");
                 Variables.Correo = ((String) Comandos.getObject("correo"));
                 }
          jTextField12.setText(Variables.RFC);
@@ -2902,7 +2911,7 @@ public class Principal extends javax.swing.JFrame {
                 Variables.delegacion = ((String) Comandos.getObject("Localidad"));
                 Variables.municipio = ((String) Comandos.getObject("municipio"));
                 Variables.Estado = ((String) Comandos.getObject("Estado"));
-                Variables.codpostal = (Integer.parseInt(Comandos.getObject("codpostal") + ""));
+                Variables.codpostal = (Comandos.getObject("codpostal") + "");
                 Variables.Correo = ((String) Comandos.getObject("correo"));
             }
             //Funcion.CerrarConsulta(Comandos);
