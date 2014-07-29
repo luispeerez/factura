@@ -121,7 +121,7 @@ public class Principal extends javax.swing.JFrame {
         jTextField23.setEditable(false);
         jTextField22.setEditable(false);
         jTextField24.setEditable(false);
-        jTextField25.setEditable(false);
+        jPasswordField1.setEditable(false);
         jTextField26.setEditable(false);
         CorreoUs=Variables.CorreoUsuario+"@gmail.com";
         
@@ -260,8 +260,8 @@ public class Principal extends javax.swing.JFrame {
         jTextField23 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField25 = new javax.swing.JTextField();
         jTextField22 = new javax.swing.JTextField();
+        jPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -1118,14 +1118,14 @@ public class Principal extends javax.swing.JFrame {
         jPanel17.add(jLabel3);
         jLabel3.setBounds(20, 70, 162, 18);
 
-        jTextField25.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jPanel17.add(jTextField25);
-        jTextField25.setBounds(210, 60, 220, 30);
-
         jTextField22.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jTextField22.setText("@gmail.com");
         jPanel17.add(jTextField22);
         jTextField22.setBounds(330, 10, 100, 30);
+
+        jPasswordField1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jPanel17.add(jPasswordField1);
+        jPasswordField1.setBounds(210, 60, 220, 30);
 
         Perfil.add(jPanel17);
         jPanel17.setBounds(210, 430, 470, 110);
@@ -1314,80 +1314,87 @@ public class Principal extends javax.swing.JFrame {
                     JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
                     null, options, options[0]);
         } else {
-            try {
-                Comandos = Funcion.Select(st, "Select *from cliente WHERE RFC='" + jTextField2.getText() + "';");// Consulta el RFC
-                while (Comandos.next()) {
-                    idclientes = Integer.parseInt(Comandos.getObject("idCliente") + "");
-                    Variables.setIdCliente(idclientes);
-                }
-                //Funcion.CerrarConsulta(Comandos);
-                if (idclientes > 0) {
-                    Comando = FuncionTienda.Select(stienda, "Select *from nota WHERE folio_nota=" + jTextField1.getText() + ";"); // Consulta la nota
-                    while (Comando.next()) {
-                        idnota = Integer.parseInt(Comando.getObject("folio_nota") + "");
+            String RFC = jTextField2.getText();
+            if (!(RFC.length() == 12 && RFC.matches("[a-zA-z]{3}[0-9]{6}[a-zA-z0-9]{3}")) && !(RFC.length() == 13 && RFC.matches("[a-zA-z]{4}[0-9]{6}[a-zA-z0-9]{3}"))) {
+                Object[] options = {"Aceptar"};
+                JOptionPane.showOptionDialog(null, "RFC inválido.", "Aviso",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                        null, options, options[0]);
+            } else {
+                try {
+                    Comandos = Funcion.Select(st, "Select *from cliente WHERE RFC='" + jTextField2.getText() + "';");// Consulta el RFC
+                    while (Comandos.next()) {
+                        idclientes = Integer.parseInt(Comandos.getObject("idCliente") + "");
+                        Variables.setIdCliente(idclientes);
                     }
-                    //FuncionTienda.CerrarConsulta(Comando);
-                    if (idnota > 0) {
-
-                        Comandos = Funcion.Select(st, "Select count(*) from factura_emitida;");// Tamaño de registros hechos
-                        while (Comandos.next()) {
-                            tamaño = Integer.parseInt(Comandos.getInt("count(*)") + "");
+                    //Funcion.CerrarConsulta(Comandos);
+                    if (idclientes > 0) {
+                        Comando = FuncionTienda.Select(stienda, "Select *from nota WHERE folio_nota=" + jTextField1.getText() + ";"); // Consulta la nota
+                        while (Comando.next()) {
+                            idnota = Integer.parseInt(Comando.getObject("folio_nota") + "");
                         }
+                        //FuncionTienda.CerrarConsulta(Comando);
+                        if (idnota > 0) {
 
-                        Cancelada = new String[tamaño];
-                        Comandos = Funcion.Select(st, "Select *from factura_emitida WHERE Folio="
-                                + idnota + ";");// Tamaño de registros hechos
-                        
-                        while (Comandos.next()) {
-                            Cancelada[y] = (Comandos.getString("Observaciones"));
-                            System.out.println(Cancelada[y]);
-                            y++;
-                        }
-
-                        for(int ind=0; ind<y;ind++){
-                            if(Cancelada[ind]==null || Cancelada[ind].equalsIgnoreCase("Factura Cancelada")){
-                                correcto=true;
-                            }else{
-                                correcto=false;
-                                break;
+                            Comandos = Funcion.Select(st, "Select count(*) from factura_emitida;");// Tamaño de registros hechos
+                            while (Comandos.next()) {
+                                tamaño = Integer.parseInt(Comandos.getInt("count(*)") + "");
                             }
-                        }                       
-                        if(correcto==true){
-                        EnviarSAT.setVisible(true);
-                        jButton3.setVisible(true);
-                        jButton11.setVisible(true);
-                        jButton1.setVisible(false);
-                        jPanel6.setVisible(false);
-                        jPanel7.setVisible(false);
-                        jButton4.setEnabled(false);
-                        jButton5.setEnabled(false);
-                        jButton6.setEnabled(false);
-                        jButton7.setEnabled(false);
-                        jButton24.setEnabled(false);
-                        jButton23.setEnabled(false);
-                        //Metodo para generar factura
-                        FechaSistema();
-                        factura();
-                        CrearPanelPDF();
-                        }else{
-                            JOptionPane.showMessageDialog(null, "¡La nota ya fue facturada!");
+
+                            Cancelada = new String[tamaño];
+                            Comandos = Funcion.Select(st, "Select *from factura_emitida WHERE Folio="
+                                    + idnota + ";");// Tamaño de registros hechos
+
+                            while (Comandos.next()) {
+                                Cancelada[y] = (Comandos.getString("Observaciones"));
+                                System.out.println(Cancelada[y]);
+                                y++;
+                            }
+
+                            for (int ind = 0; ind < y; ind++) {
+                                if (Cancelada[ind] == null || Cancelada[ind].equalsIgnoreCase("Factura Cancelada")) {
+                                    correcto = true;
+                                } else {
+                                    correcto = false;
+                                    break;
+                                }
+                            }
+                            if (correcto == true) {
+                                EnviarSAT.setVisible(true);
+                                jButton3.setVisible(true);
+                                jButton11.setVisible(true);
+                                jButton1.setVisible(false);
+                                jPanel6.setVisible(false);
+                                jPanel7.setVisible(false);
+                                jButton4.setEnabled(false);
+                                jButton5.setEnabled(false);
+                                jButton6.setEnabled(false);
+                                jButton7.setEnabled(false);
+                                jButton24.setEnabled(false);
+                                jButton23.setEnabled(false);
+                                //Metodo para generar factura
+                                FechaSistema();
+                                factura();
+                                CrearPanelPDF();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "¡La nota ya fue facturada!");
+                            }
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "¡La nota no existe!");
                         }
-                        
-                        
+
                     } else {
-                        JOptionPane.showMessageDialog(null, "¡La nota no existe!");
+                        jPanel7.setVisible(true);
+                        jTextField5.setText(jTextField2.getText());
+                        jTextField5.setEditable(false);
+                        jButton2.setVisible(true);
                     }
-
-                } else {
-                    jPanel7.setVisible(true);
-                    jTextField5.setEditable(true);
-                    jButton2.setVisible(true);
+                } catch (Exception ex) {
+                    //JOptionPane.showMessageDialog(this, "Error en los datos");
+                    System.out.println(ex.getMessage());
                 }
-            } catch (Exception ex) {
-               //JOptionPane.showMessageDialog(this, "Error en los datos");
-                System.out.println(ex.getMessage());
             }
-
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -2029,7 +2036,7 @@ public class Principal extends javax.swing.JFrame {
             if (modificar == false) {
                 jButton31.setText("Guardar Datos");
                 jTextField23.setEditable(true);
-                jTextField25.setEditable(true);
+                jPasswordField1.setEditable(true);
                 jTextField24.setEditable(true);
                 jTextField26.setEditable(true);
 
@@ -2044,7 +2051,7 @@ public class Principal extends javax.swing.JFrame {
                     String Comando = "UPDATE Usuarios SET Nombre='" + jTextField24.getText() + "', contrasena='" + jTextField26.getText()
                             + "' WHERE id=" + idUsuarioPerfil + ";";
                     Funcion.Update(st, Comando);
-                    Comando = "UPDATE Usuarios SET Correo='" + jTextField23.getText() + "';";
+                    Comando = "UPDATE Usuarios SET correo='" + jTextField23.getText() + "', contcorreo='" + jPasswordField1.getText() + "';";
                     Funcion.Update(st, Comando);
                     jButton31.setText("Editar Datos");
                     modificar = false;
@@ -2057,7 +2064,7 @@ public class Principal extends javax.swing.JFrame {
                     }
                     CorreoUs =  Variables.CorreoUsuario + jTextField22.getText();
                     jTextField23.setEditable(false);
-                    jTextField25.setEditable(false);
+                    jPasswordField1.setEditable(false);
                     jTextField24.setEditable(false);
                     jTextField26.setEditable(false);
                     jButton4.setEnabled(true);
@@ -2147,7 +2154,7 @@ public class Principal extends javax.swing.JFrame {
                 jTextField26.setText(Comando.getString("contrasena"));    
                 jTextField21.setText(Comando.getString("tipo"));
                 jTextField23.setText(Comando.getString("correo"));
-                jTextField25.setText(Comando.getString("Contcorreo"));
+                jPasswordField1.setText(Comando.getString("Contcorreo"));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -2428,7 +2435,7 @@ public class Principal extends javax.swing.JFrame {
         Color rojo = new Color(221, 76, 76);
         try {
             //Consultamos todos los clientes
-            ResultSet Comandos = Funcion.Select(st, "SELECT * FROM usuarios where id>1;");
+            ResultSet Comandos = Funcion.Select(st, "SELECT * FROM usuarios where Tipo!='Administrador';");
             //Ciclo para crear un panel para cada uno
             while (Comandos.next()) {
                 //Creamos un panel con alineacion a la izquierda
@@ -3059,6 +3066,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -3080,7 +3088,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
