@@ -197,7 +197,7 @@ public class NuevoPdf {
         PdfPTable datos = new PdfPTable(2);
         datos.setWidthPercentage(99);    
         
-        Paragraph rfc = new Paragraph(""+Variables.idCliente,medium);
+        Paragraph rfc = new Paragraph("N° de Folio: "+Variables.idFactura,medium);
         Paragraph rfc2 = new Paragraph(Variables.RFC,medium);
         Paragraph nombre = new Paragraph(Variables.NombreCliente,medium);
         Paragraph direccion = new Paragraph(Variables.delegacion,medium);

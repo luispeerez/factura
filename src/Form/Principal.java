@@ -54,6 +54,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -70,9 +71,10 @@ public class Principal extends javax.swing.JFrame {
     static ResultSet Comandos, Comando, Comandoventas;
     JPanel Panelpdf= new JPanel();
     JScrollPane scrollcuadro = new JScrollPane();
-    boolean nueva=true, editarcliente2=false, presionado = false;
+    boolean nueva=true, editarcliente2=false, presionado = false, editando = false;
     int idUsuarioPerfil, presionadoactual;
     static String CorreoUs;
+    TextAutoCompleter Autocompletar;
     /**
      * Creates new form Principal
      */
@@ -124,8 +126,6 @@ public class Principal extends javax.swing.JFrame {
         jPasswordField1.setEditable(false);
         jTextField26.setEditable(false);
         CorreoUs=Variables.CorreoUsuario+"@gmail.com";
-        
-        
         if(Variables.Tipo.equalsIgnoreCase("Administrador")){
             jPanel17.setVisible(true);
             jButton4.setVisible(true);
@@ -138,8 +138,7 @@ public class Principal extends javax.swing.JFrame {
             jButton30.setLocation(470, 480);
             jButton31.setLocation(270, 480);
         }
-        
-        TextAutoCompleter Autocompletar = new TextAutoCompleter(jTextField2);
+        Autocompletar = new TextAutoCompleter(jTextField2);
         Comandos = Funcion.Select(st, "SELECT * FROM cliente;");
         try {
             while(Comandos.next()){
@@ -147,6 +146,18 @@ public class Principal extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             //Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Comandos = Funcion.Select(st, "SELECT * FROM factura_emitida;");
+        try {
+            if(Comandos.next()){
+                Comandos.last();
+                Variables.idFactura = Comandos.getInt("idFacturaEmitida") + 1;
+            }
+            else{
+                Variables.idFactura = 1;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -244,14 +255,17 @@ public class Principal extends javax.swing.JFrame {
         jButton20 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
         EnviarSAT1 = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel26 = new javax.swing.JLabel();
+        jTextField21 = new javax.swing.JTextField();
         Perfil = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jTextField24 = new javax.swing.JTextField();
         jTextField26 = new javax.swing.JTextField();
-        jTextField21 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
         jButton30 = new javax.swing.JButton();
         jButton31 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
@@ -695,11 +709,11 @@ public class Principal extends javax.swing.JFrame {
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addContainerGap(37, Short.MAX_VALUE)
+                .addContainerGap(31, Short.MAX_VALUE)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
                     .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33))
+                .addGap(39, 39, 39))
         );
 
         NueFactura.add(jPanel13);
@@ -711,7 +725,6 @@ public class Principal extends javax.swing.JFrame {
         ConFacturas.setLayout(null);
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane3.setToolTipText("");
 
         jPanel11.setBackground(new java.awt.Color(243, 243, 243));
         jPanel11.setPreferredSize(new java.awt.Dimension(870, 660));
@@ -741,18 +754,7 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(243, 243, 243));
         jPanel8.setPreferredSize(new java.awt.Dimension(870, 660));
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 870, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
-        );
-
+        jPanel8.setLayout(null);
         jScrollPane1.setViewportView(jPanel8);
 
         ConClientes.add(jScrollPane1);
@@ -1012,6 +1014,38 @@ public class Principal extends javax.swing.JFrame {
         EditarClientes.add(EnviarSAT1);
         EnviarSAT1.setBounds(660, 90, 180, 43);
 
+        jPanel14.setBackground(Color.white);
+        jPanel14.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel26.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel26.setText("Comentario:");
+
+        jTextField21.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addContainerGap(31, Short.MAX_VALUE)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel26)
+                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39))
+        );
+
+        EditarClientes.add(jPanel14);
+        jPanel14.setBounds(80, 110, 530, 100);
+
         jTabbedPane2.addTab("tab5", EditarClientes);
 
         Perfil.setBackground(new java.awt.Color(243, 243, 243));
@@ -1044,12 +1078,13 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel15.add(jTextField26, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 220, 30));
 
-        jTextField21.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jPanel15.add(jTextField21, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 220, 30));
-
         jLabel4.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jLabel4.setText("Tipo de Usuario:");
         jPanel15.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, -1, -1));
+
+        jComboBox1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Usuario", "Administrador" }));
+        jPanel15.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 220, 30));
 
         Perfil.add(jPanel15);
         jPanel15.setBounds(210, 250, 470, 170);
@@ -1068,7 +1103,7 @@ public class Principal extends javax.swing.JFrame {
 
         jButton31.setBackground(new java.awt.Color(0, 153, 255));
         jButton31.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jButton31.setText("Modificar Datos");
+        jButton31.setText("Editar Datos");
         jButton31.setActionCommand("Guardar cambios");
         jButton31.setFocusPainted(false);
         jButton31.addActionListener(new java.awt.event.ActionListener() {
@@ -1204,6 +1239,7 @@ public class Principal extends javax.swing.JFrame {
         jButton24.setBackground(gris);
         jPanel8.removeAll();
         jTabbedPane2.setSelectedIndex(3);
+        editando = false;
         Color azul = new Color(0, 182, 230);
         jButton4.setBackground(azul);
         PanelUsuarios();
@@ -1421,6 +1457,16 @@ public class Principal extends javax.swing.JFrame {
                         + "','" + jTextField8.getText() + "','" + jTextField3.getText() + "','"
                         + jTextField11.getText() + "'); ";
                 Funcion.Update(st, Comando);
+                Autocompletar.removeAllItems();
+                Autocompletar = new TextAutoCompleter(jTextField2);
+                Comandos = Funcion.Select(st, "SELECT * FROM cliente;");
+                try {
+                    while (Comandos.next()) {
+                        Autocompletar.addItem(Comandos.getString("RFC"));
+                    }
+                } catch (SQLException ex) {
+                    //Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 //*******Limpiar
                 jTextField5.setText("");
                 jTextField6.setText("");
@@ -1432,8 +1478,8 @@ public class Principal extends javax.swing.JFrame {
                 jTextField11.setText("");
                 jPanel7.setVisible(false);
                 jButton2.setVisible(false);
-                jPanel6.setVisible(false);
-                jButton1.setVisible(false);
+                //jPanel6.setVisible(false);
+                //jButton1.setVisible(false);
                 jButton1.setEnabled(true);
                 
                 Object[] options = {"Aceptar"};
@@ -1441,14 +1487,14 @@ public class Principal extends javax.swing.JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
                         null, options, options[0]);
 
-                jButton8.setVisible(true);
+                /*jButton8.setVisible(true);
                 jButton9.setVisible(true);
                 jButton10.setVisible(true);
                 jButton3.setVisible(true);
-                jButton11.setVisible(true);
+                jButton11.setVisible(true); 
                 FechaSistema();
                 factura();
-                CrearPanelPDF();
+                CrearPanelPDF();*/
             }
 
         } catch (Exception e) {
@@ -1485,7 +1531,6 @@ public class Principal extends javax.swing.JFrame {
             jTextField11.setText(Variables.delegacion);
             jTextField8.setText("" + Variables.codpostal);
             jTextField3.setText(Variables.Correo);
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
         }
@@ -1511,6 +1556,7 @@ public class Principal extends javax.swing.JFrame {
                     + ",'" + serie
                     + "','" + Variables.Comentario + "'"
                     + ",'" + Variables.FechaSistema + "');";
+            Variables.idFactura++;
             Funcion.Update(st, Comando);
             JOptionPane.showMessageDialog(null, "Factura creada");
             Comandos = Funcion.Select(st, "SELECT idFacturaEmitida FROM factura_emitida WHERE Folio =" + idnota + "");
@@ -1576,10 +1622,11 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
     //************** Cancelar Cambios en los datos del Cliente 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        EnviarSAT.setVisible(true);
         scrollcuadro.setVisible(true);
         jButton2.setVisible(false);
-        jButton9.setVisible(true);
-        jButton10.setVisible(true);
+        //jButton9.setVisible(true);
+        //jButton10.setVisible(true);
         jButton3.setVisible(true);
         jButton11.setVisible(true);
         jButton12.setVisible(false);
@@ -1613,7 +1660,7 @@ public class Principal extends javax.swing.JFrame {
                 Comando = "UPDATE cliente SET NombreCliente='" + jTextField6.getText() + "',Direccion='"
                         + jTextField10.getText() + "',Estado='" + jTextField7.getText() + "',Municipio='"
                         + jTextField9.getText() + "',Localidad='" + jTextField11.getText()
-                        + "',codPostal=" + jTextField8.getText() + ",correo='" + jTextField3.getText()
+                        + "',codPostal='" + jTextField8.getText() + "',correo='" + jTextField3.getText()
                         + "' WHERE idCliente=" + Variables.idCliente + ";";
                 Funcion.Update(st, Comando);
                 
@@ -1636,8 +1683,8 @@ public class Principal extends javax.swing.JFrame {
                 jButton13.setVisible(false);
                 jPanel13.setVisible(false);
                 
-                jButton9.setVisible(true);
-                jButton10.setVisible(true);
+                //jButton9.setVisible(true);
+                //jButton10.setVisible(true);
                 jButton3.setVisible(true);
                 jButton11.setVisible(true);
                 EnviarSAT.setVisible(true);
@@ -1781,23 +1828,35 @@ public class Principal extends javax.swing.JFrame {
                 Comando = "UPDATE cliente SET NombreCliente='" + jTextField14.getText()+ "',Direccion='"
                         + jTextField13.getText() + "',Estado='" + jTextField15.getText() + "',Municipio='"
                         + jTextField17.getText()+ "',Localidad='" + jTextField18.getText()
-                        + "',codPostal=" + jTextField16.getText() + ",correo='" + jTextField4.getText()
+                        + "',codPostal='" + jTextField16.getText() + "',correo='" + jTextField4.getText()
                         +"',RFC='" +jTextField12.getText()+ "' WHERE idCliente=" + id + ";";
                 Funcion.Update(st, Comando);
-
+                Variables.Comentario=jTextField21.getText();
+                
                 if (editarcliente2 == false)
                     botonfalse();
                 else {
+                    jTextField12.setText("");
+                    jTextField14.setText("");
+                    jTextField13.setText("");
+                    jTextField15.setText("");
+                    jTextField17.setText("");
+                    jTextField18.setText("");
+                    jTextField16.setText("");
+                    jTextField4.setText("");
+                    jTextField21.setText("");
+                    EditarClientes.remove(scrollcuadro);
                     jPanel9.setVisible(false);
-                    EnviarSAT1.setVisible(true);                    
+                    EnviarSAT1.setVisible(true);
                     jButton18.setVisible(true);
                     jButton15.setVisible(true);
                     scrollcuadro.setVisible(true);
                     jButtonSave.setVisible(false);
                     jButton16.setVisible(false);
+                    jPanel14.setVisible(false);
+                    CrearPanelPDF();  
                 }
                 editarcliente2=false;
-                    
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
@@ -1822,13 +1881,14 @@ public class Principal extends javax.swing.JFrame {
             scrollcuadro.setVisible(true);
             jButtonSave.setVisible(false);
             jButton16.setVisible(false);
+            jPanel14.setVisible(false);
         }
         editarcliente2 = false;
     }//GEN-LAST:event_jButton16ActionPerformed
 
     //********* Editar datos en facturas por clientes
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-
+        jPanel14.setVisible(true);
         jTextField12.setEditable(false);
         jTextField14.setEditable(true);
         jTextField13.setEditable(true);
@@ -1846,6 +1906,14 @@ public class Principal extends javax.swing.JFrame {
         EnviarSAT1.setVisible(false);
         jButton18.setVisible(false);
         jButton15.setVisible(false);
+        jTextField12.setText(Variables.RFC);
+        jTextField14.setText(Variables.NombreCliente);
+        jTextField13.setText(Variables.Direccion);
+        jTextField15.setText(Variables.Estado);
+        jTextField17.setText(Variables.municipio);
+        jTextField18.setText(Variables.delegacion);
+        jTextField16.setText(Variables.codpostal);
+        jTextField4.setText(Variables.Correo);
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
@@ -1917,6 +1985,7 @@ public class Principal extends javax.swing.JFrame {
             String lugar = "Cancun Quintana Roo, Mexico";
             String serie = "5E34";
             String Comando = null;
+            int idFactura = 0;
             Comando = "INSERT INTO factura_emitida  VALUES (" + Variables.idCliente
                     + ",default,'" + folio_fiscal
                     + "','" + serie_csd
@@ -1927,9 +1996,13 @@ public class Principal extends javax.swing.JFrame {
                     + "','" + Variables.Comentario + "'"
                     + ",'" + Variables.FechaSistema + "');";
             Funcion.Update(st, Comando);
+            Variables.idFactura++;
             JOptionPane.showMessageDialog(null, "Factura creada");
-
-            NuevoXML xml = new NuevoXML("factura" + idnota + ".xml");
+            Comandos = Funcion.Select(st, "SELECT idFacturaEmitida FROM factura_emitida WHERE Folio =" + idnota + "");
+            if(Comandos.next()){
+                idFactura = Comandos.getInt("idFacturaEmitida");
+            }
+            NuevoXML xml = new NuevoXML("xml/factura" + idFactura + ".xml");
             xml.main();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -2009,6 +2082,19 @@ public class Principal extends javax.swing.JFrame {
         jButton7.setEnabled(false);
         jButton24.setEnabled(false);
         jButton23.setEnabled(false);
+        jLabel2.setToolTipText("Haz click para cambiar tu foto de perfil.");
+        if(Variables.Tipo.equalsIgnoreCase("Administrador")){
+            jPanel17.setVisible(true);
+            jButton4.setVisible(true);
+            jButton30.setLocation(470, 550);
+            jButton31.setLocation(270, 550);
+        }else{
+            jButton4.setVisible(false);
+            jButton23.setLocation(0, 540);
+            jPanel17.setVisible(false); 
+            jButton30.setLocation(470, 480);
+            jButton31.setLocation(270, 480);
+        }
         PerfilUsuario(Variables.idUsuario);
         botonfalse();
         Color azul = new Color(0, 182, 230);
@@ -2028,6 +2114,7 @@ public class Principal extends javax.swing.JFrame {
         jTabbedPane2.setSelectedIndex(0);
         nueva = true;
         botonfalse();
+        jButton31.setText("Editar Datos");
         modificar = false;
         jButton4.setEnabled(true);
         jButton5.setEnabled(true);
@@ -2048,7 +2135,7 @@ public class Principal extends javax.swing.JFrame {
                 jPasswordField1.setEditable(true);
                 jTextField24.setEditable(true);
                 jTextField26.setEditable(true);
-
+                jComboBox1.setEnabled(true);
                 modificar = true;
             } else {
                 if (jTextField24.getText().equalsIgnoreCase("") || jTextField26.getText().equalsIgnoreCase("")) {
@@ -2058,7 +2145,7 @@ public class Principal extends javax.swing.JFrame {
                             null, options, options[0]);
                 } else {
                     String Comando = "UPDATE Usuarios SET Nombre='" + jTextField24.getText() + "', contrasena='" + jTextField26.getText()
-                            + "' WHERE id=" + idUsuarioPerfil + ";";
+                            + "', Tipo='" + jComboBox1.getSelectedItem().toString() + "' WHERE id=" + idUsuarioPerfil + ";";
                     Funcion.Update(st, Comando);
                     Comando = "UPDATE Usuarios SET correo='" + jTextField23.getText() + "', contcorreo='" + jPasswordField1.getText() + "';";
                     Funcion.Update(st, Comando);
@@ -2076,6 +2163,7 @@ public class Principal extends javax.swing.JFrame {
                     jPasswordField1.setEditable(false);
                     jTextField24.setEditable(false);
                     jTextField26.setEditable(false);
+                    jComboBox1.setEnabled(false);
                     jButton4.setEnabled(true);
                     jButton5.setEnabled(true);
                     jButton6.setEnabled(true);
@@ -2091,7 +2179,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
-        File Ruta = new File("Imagenes/Fotos Perfil/");
+        if(editando == false){
+            File Ruta = new File("Imagenes/Fotos Perfil/");
         JFileChooser Examinar = new JFileChooser();
         FileNameExtensionFilter Filtro = new FileNameExtensionFilter("Image", "png", "jpg");
         Examinar.addChoosableFileFilter(Filtro);
@@ -2126,6 +2215,7 @@ public class Principal extends javax.swing.JFrame {
             System.out.println("Cancelar");
         }
         PerfilUsuario(Variables.idUsuario);
+        }
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jButton7MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseDragged
@@ -2160,8 +2250,12 @@ public class Principal extends javax.swing.JFrame {
            }
             while (Comando.next()) {
                 jTextField24.setText(Comando.getString("Nombre"));
-                jTextField26.setText(Comando.getString("contrasena"));    
-                jTextField21.setText(Comando.getString("tipo"));
+                jTextField26.setText(Comando.getString("contrasena"));   
+                if(Comando.getString("tipo").equals("Usuario")){
+                    jComboBox1.setSelectedIndex(0);
+                } else if(Comando.getString("tipo").equals("Administrador")){
+                    jComboBox1.setSelectedIndex(1);
+                }
                 jTextField23.setText(Comando.getString("correo"));
                 jPasswordField1.setText(Comando.getString("Contcorreo"));
             }
@@ -2345,36 +2439,45 @@ public class Principal extends javax.swing.JFrame {
         int i = 0;
         int Altura = 0;
         Color gris = new Color(44, 44, 44);
-
+        Color rojo = new Color(221, 76, 76);
         Color azul = new Color(0, 153, 255);
-        JLabel VERMAS = null;
         try {
-
             //Consultamos todos los clientes
             ResultSet Comandos = Funcion.Select(st, "SELECT * FROM cliente;");
             //Ciclo para crear un panel para cada uno
             while (Comandos.next()) {
                 //Creamos un panel con alineacion a la izquierda
-                JPanel Panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                JPanel Panel = new JPanel();
+                Panel.setLayout(null);
                 jPanel8.add(Panel);
                 //Tamaño del panel
-                Panel.setSize(700, 140);
+                Panel.setSize(700, 195);
                 // La posicion y del panel ira incrementando para que no se encimen
-                Altura = 30 + (i * 150);
+                Altura = 30 + (i * 205);
                 Panel.setLocation(50, Altura);
                 Panel.setBackground(Color.white);
                 Panel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
                 //Creamos label para mostrar los datos del cliente, el codigo html es para que al llegar al final del panel
                 //se pase a la siguiente linea y para el margen izquierdo
-                final JLabel RFC = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "RFC: " + Comandos.getString("RFC")));
-                JLabel Nombre = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Nombre: " + Comandos.getString("NombreCliente")));
-                JLabel Direccion = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Direccion: " + Comandos.getString("Direccion")));
-                JLabel Correo = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:50px;'>%s</div><html>", Panel.getWidth(), "Correo: " + Comandos.getString("correo")));
-                VERMAS = new JLabel(String.format("<html><div WIDTH=%d style='margin-left:450px;'>%s</div><html>", Panel.getWidth(), "<html><u>Ver mas</u></html>)"));
-               System.out.println(Panel.getHeight());
-                VERMAS.setName(String.valueOf(Comandos.getInt("idCliente")));
-                VERMAS.setCursor(null);
-                MouseListener ml = new MouseListener() {
+                JLabel RFC = new JLabel();
+                RFC.setText("RFC: " + Comandos.getString("RFC"));
+                JLabel Nombre = new JLabel();
+                Nombre.setText("Nombre: " + Comandos.getString("NombreCliente"));
+                JTextArea Direccion = new JTextArea();
+                Direccion.setLineWrap(true);
+                Direccion.setBorder(null);
+                Direccion.setText("Dirección: " + Comandos.getString("Direccion"));
+                JLabel Correo = new JLabel();
+                Correo.setText("Correo: " + Comandos.getString("correo"));
+                JButton VerMas = new JButton();
+                VerMas.setText("Ver más");
+                VerMas.setName(Comandos.getString("idCliente"));
+                VerMas.setBackground(azul);
+                JButton Eliminar = new JButton();
+                Eliminar.setText("Eliminar");
+                Eliminar.setName(Comandos.getString("idCliente"));
+                Eliminar.setBackground(rojo);
+                MouseListener mlVerMas = new MouseListener() {
                     @Override
                     public void mouseReleased(MouseEvent e) {
                         //System.out.println("Released!");
@@ -2398,7 +2501,7 @@ public class Principal extends javax.swing.JFrame {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        JLabel source = (JLabel) e.getSource();
+                        JButton source = (JButton) e.getSource();
                         id = Integer.parseInt(source.getName());
                         jTabbedPane2.setSelectedIndex(4);
                         jButton16.setVisible(true);
@@ -2406,35 +2509,95 @@ public class Principal extends javax.swing.JFrame {
                         jButtonEditar.setVisible(true);
                         jPanel9.setVisible(true);
                         jPanel10.setVisible(true);
+                        jPanel14.setVisible(false);
                         LlenarPanel();
-
                     }
                 };
-                VERMAS.addMouseListener(ml);
+                VerMas.addMouseListener(mlVerMas);
+                MouseListener mlEliminar = new MouseListener() {
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        //System.out.println("Released!");
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        //System.out.println("Pressed!");
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        //System.out.println("Exited!");
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        //System.out.println("Entered!");
+                        e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        JButton source = (JButton) e.getSource();
+                        Funcion.Update(st, "DELETE FROM cliente WHERE idCliente = " + source.getName() + ";");
+                        Autocompletar.removeAllItems();
+                        Autocompletar = new TextAutoCompleter(jTextField2);
+                        ResultSet Comandos = Funcion.Select(st, "SELECT * FROM cliente;");
+                        try {
+                            while (Comandos.next()) {
+                                Autocompletar.addItem(Comandos.getString("RFC"));
+                            }
+                        } catch (SQLException ex) {
+                            //Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        jPanel8.removeAll();
+                        PanelClientes();
+                        jPanel8.repaint();
+                    }
+                };
+                Eliminar.addMouseListener(mlEliminar);
 //Fuente del texto
-                RFC.setFont(new Font("Verdana", Font.PLAIN, 13));
+                RFC.setFont(new Font("Verdana", Font.PLAIN, 14));
                 RFC.setForeground(gris);
-                Nombre.setFont(new Font("Verdana", Font.PLAIN, 13));
+                Nombre.setFont(new Font("Verdana", Font.PLAIN, 14));
                 Nombre.setForeground(gris);
-                Direccion.setFont(new Font("Verdana", Font.PLAIN, 13));
+                Direccion.setFont(new Font("Verdana", Font.PLAIN, 14));
                 Direccion.setForeground(gris);
-                Correo.setFont(new Font("Verdana", Font.PLAIN, 13));
+                Correo.setFont(new Font("Verdana", Font.PLAIN, 14));
                 Correo.setForeground(gris);
-                VERMAS.setFont(new Font("Verdana", Font.PLAIN, 13));
-                VERMAS.setForeground(azul);
+                VerMas.setFont(new Font("Verdana", Font.PLAIN, 14));
+                VerMas.setForeground(Color.white);
+                Eliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
+                Eliminar.setForeground(Color.white);
+                /*VERMAS.setFont(new Font("Verdana", Font.PLAIN, 13));
+                VERMAS.setForeground(azul);*/
                 //Añadimos los label al panel correspondiente del cliente
                 Panel.add(RFC);
                 Panel.add(Nombre);
                 Panel.add(Direccion);
                 Panel.add(Correo);
-                Panel.add(VERMAS);
+                Panel.add(VerMas);
+                Panel.add(Eliminar);
+                RFC.setLocation(30, 10);
+                RFC.setSize(610, 30);
+                Nombre.setLocation(30, 40);
+                Nombre.setSize(610, 30);
+                Direccion.setLocation(30, 75);
+                Direccion.setSize(610, 40);
+                Correo.setLocation(30, 115);
+                Correo.setSize(610, 30);
+                VerMas.setLocation(210, 150);
+                VerMas.setSize(120, 35);
+                Eliminar.setLocation(390, 150);
+                Eliminar.setSize(120, 35);
+                //Panel.add(VERMAS);
                 i++;
             }
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
         //Dependiendo de cuantos clientes se agregaron, se ajusta el tamaño del panel principal para que el scroll llegue hasta ahi
-        jPanel8.setPreferredSize(new Dimension(jPanel8.getWidth(), Altura + 150));
+        jPanel8.setPreferredSize(new Dimension(jPanel8.getWidth(), Altura + 205));
     }
     public void PanelUsuarios(){ 
         int i = 0;
@@ -2523,7 +2686,9 @@ public class Principal extends javax.swing.JFrame {
                         jPanel17.setVisible(false);
                         jButton30.setLocation(470, 480);
                         jButton31.setLocation(270, 480);
+                        jLabel2.setToolTipText(null);
                         jTabbedPane2.setSelectedIndex(5);
+                        editando = true;
                         PerfilUsuario(Integer.parseInt(source.getName()));
                         Color gris = new Color(44, 44, 44);
                         jButton4.setBackground(gris);
@@ -2642,6 +2807,9 @@ public class Principal extends javax.swing.JFrame {
         editarcliente2=false;
         jTextField24.setEditable(false);
         jTextField26.setEditable(false);
+        jTextField23.setEditable(false);
+        jPasswordField1.setEditable(false);
+        jComboBox1.setEnabled(false);
     }
     public void PanelFacturas() {
         int i = 0;
@@ -2720,19 +2888,28 @@ public class Principal extends javax.swing.JFrame {
                             while (Comandos.next()) {
                                 Variables.FechaFactura = Comandos.getString("FechaEmision");
                                 Variables.FechaSistema= Comandos.getString("fechasistema");
+                                Variables.idFactura = Comandos.getInt("idFacturaEmitida");
                             }
                             Consulta();
                             Variables.guardar = false;
                             NuevoPdf pdf = new NuevoPdf("Factura.pdf");
                             pdf.main();
                             File myfile = new File("Factura.pdf");
-
                             Desktop.getDesktop().open(myfile);
-
+                            Comandos = Funcion.Select(st, "SELECT * FROM factura_emitida;");
+                            try {
+                                if (Comandos.next()) {
+                                    Comandos.last();
+                                    Variables.idFactura = Comandos.getInt("idFacturaEmitida") + 1;
+                                } else {
+                                    Variables.idFactura = 1;
+                                }
+                            } catch (SQLException ex) {
+                                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         } catch (Exception ex) {
                             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
                         }
-
                     }
                 };
                 MouseListener mlCancelar = new MouseListener() {
@@ -2899,6 +3076,9 @@ public class Principal extends javax.swing.JFrame {
                 folio_nota = Comandos.getInt("Folio");
                 Variables.idCliente = (Integer.parseInt(Comandos.getObject("idCliente") + ""));
                 Variables.Comentario = ((String) Comandos.getObject("Observaciones"));
+                if(Variables.Comentario.equals("null")){
+                    Variables.Comentario = "";
+                }
             }
             
             
@@ -3036,6 +3216,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonSave;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -3054,6 +3235,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -3068,6 +3250,7 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;

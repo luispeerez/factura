@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.13, for Win64 (x86_64)
 --
 -- Host: localhost    Database: facturas
 -- ------------------------------------------------------
--- Server version	5.6.17
+-- Server version	5.6.13
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,7 +33,7 @@ CREATE TABLE `cliente` (
   `correo` varchar(40) DEFAULT NULL,
   `Localidad` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`idCliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (2,'GCR081028K4A','GRUPO','Calle FRACC. VILLAS DEL MAR I MZA. 39 No. Exterior LOTE 1 No.  Interior CASA 2 Colonia SUPERMANZANA 248','BENITO JUAREZ','QUINTANA ROO','77516','warriorgera@gmail.com','CANCUN'),(3,'OPE0401271D8','OPERATEC, S.A. DE C.V.','AV. LABNA MANZANA 17 LOTE 86 Nº.S/N Int Nº. A SUPERMANZANA 20','BENITO JUAREZ','QUINTANA ROO','77500','OPERATEC@gmail.com','CANCUN'),(4,'DRG041213AV9','DIAZ, RUIZ, GASQUE Y ASOCIADOS, S.C.P.','CALLE 60 X 53 Nº. 474 ALTOS COLONIA CENTRO','MERIDA','YUCATAN','97000','oficina.merida@drgc.com.mx','Merida'),(5,'RAA020304893','REFACCIONARIA AUTOMOTRIZ ANCONA S.A DE C.V.','AV. PUERTO JUAREZ, LTE. 29, MZA.1 REG. 92','QUINTANA ROO','CANCUN','77516','ANCONA@gmail.com',NULL),(12,'DRG041213AV8','asd','asd','ads','sad','asd','ad','ad');
+INSERT INTO `cliente` VALUES (2,'GCR081028K4A','GRUPO ANCONA','Calle FRACC. VILLAS DEL MAR I MZA. 39 No. Exterior LOTE 1 No.  Interior CASA 2 Colonia SUPERMANZANA 248','BENITO JUAREZ','QUINTANA ROO','77516','warriorgera@gmail.com','CANCUN'),(3,'OPE0401271D8','OPERATEC, S.A. DE C.V.','AV. LABNA MANZANA 17 LOTE 86 Nº.S/N Int Nº. A SUPERMANZANA 20','BENITO JUAREZ','QUINTANA ROO','77500','leogd3579@gmail.com','CANCUN'),(4,'DRG041213AV9','DIAZ, RUIZ, GASQUE Y ASOCIADOS, S.C.P.','CALLE 60 X 53 Nº. 474 ALTOS COLONIA CENTRO','MERIDA','YUCATAN','97000','oficina.merida@drgc.com.mx','Merida'),(5,'RAA020304893','REFACCIONARIA AUTOMOTRIZ ANCONA S.A DE C.V.','AV. PUERTO JUAREZ, LTE. 29, MZA.1 REG. 92','BENITO JUAREZ','QUINTANA ROO','77516','ANCONA@gmail.com','CANCUN');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS `factura_emitida`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `factura_emitida` (
   `idCliente` int(10) DEFAULT NULL,
-  `idFacturaEmitida` int(10) NOT NULL AUTO_INCREMENT,
+  `idFacturaEmitida` int(11) NOT NULL AUTO_INCREMENT,
   `Folio_Fiscal` varchar(50) DEFAULT NULL,
   `SerieCSD` varchar(50) DEFAULT NULL,
   `FechaEmision` datetime DEFAULT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE `factura_emitida` (
   `Observaciones` text,
   `fechasistema` text,
   PRIMARY KEY (`idFacturaEmitida`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,6 @@ CREATE TABLE `factura_emitida` (
 
 LOCK TABLES `factura_emitida` WRITE;
 /*!40000 ALTER TABLE `factura_emitida` DISABLE KEYS */;
-INSERT INTO `factura_emitida` VALUES (6,7,'1GR523GTEDQY','GHVN24501JKTU1','2014-07-29 10:16:37','Cancun Quintana Roo, Mexico',3,'5E34','FACTURA','29-7-2014 10:14:39'),(4,8,'1GR523GTEDQY','GHVN24501JKTU1','2014-07-29 10:28:19','Cancun Quintana Roo, Mexico',5,'5E34','null','29-7-2014 10:27:55');
 /*!40000 ALTER TABLE `factura_emitida` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +92,7 @@ CREATE TABLE `usuarios` (
   `correo` text,
   `contcorreo` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +101,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'admin','admin','Administrador','anconafactura','ancona12'),(6,'Pepe','12345','Usuario','anconafactura','ancona12');
+INSERT INTO `usuarios` VALUES (1,'admin','admin','Administrador','anconafactura','ancona12'),(10,'Pepe','12345','Usuario','anconafactura','ancona12');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -115,4 +114,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-29 16:15:38
+-- Dump completed on 2014-07-30 18:39:23

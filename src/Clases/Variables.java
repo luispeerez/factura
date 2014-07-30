@@ -22,6 +22,7 @@ public class Variables {
     public static String ContraseñaCorreo;
     public static String FechaSistema;
     public static int Cancelar;
+    public static int idFactura;
 
     /**
      * @return the idUsuario

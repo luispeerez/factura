@@ -152,7 +152,7 @@ public class Usuarios extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             int id = 0;
-            String Comando2 = null, Correo=null, Contraseña=null;
+            String Comando2 = null, Correo = null, Contraseña = null;
             ResultSet Comando = null;
             if (jTextField1.getText().equalsIgnoreCase("")
                     || jPasswordField2.getText().equalsIgnoreCase("")
@@ -162,36 +162,42 @@ public class Usuarios extends javax.swing.JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
                         null, options, options[0]);
             } else {
-
-                Comando = Funcion.Select(st, "Select *from usuarios WHERE contrasena='" + jPasswordField1.getText() + "' and Tipo='Administrador';");
-                while (Comando.next()) {
-                    Variables.Tipo = (String) Comando.getObject("Tipo");
-                    Contraseña= Comando.getString("contCorreo");
-                    Correo= Comando.getString("Correo");
-                }
-                if (Variables.Tipo.equalsIgnoreCase("Administrador")) {
-                    
-                    
-                    Comando2 = "INSERT INTO usuarios VALUES (default,'" + jTextField1.getText() + "','"
-                            + jPasswordField2.getText() + "','" + jComboBox1.getSelectedItem() + "' ,'"+Correo+"','"+
-                            Contraseña+"'); ";
-                    Funcion.Update(st, Comando2);
-                    //*******Limpiar
-                    jTextField1.setText("");
-                    jPasswordField2.setText("");
-                    jPasswordField1.setText("");
-
+                Comando = Funcion.Select(st, "SELECT * FROM usuarios WHERE Nombre = '" + jTextField1.getText() + "';");
+                if (Comando.next()) {
                     Object[] options = {"Aceptar"};
-                    JOptionPane.showOptionDialog(null, "¡Exito!", "Nuevo usuario",
+                    JOptionPane.showOptionDialog(null, "El nombre de usuario ya existe, favor de escojer otro.", "Aviso",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
                             null, options, options[0]);
-
                 } else {
+                    Comando = Funcion.Select(st, "Select *from usuarios WHERE contrasena='" + jPasswordField1.getText() + "' and Tipo='Administrador';");
+                    while (Comando.next()) {
+                        Variables.Tipo = (String) Comando.getObject("Tipo");
+                        Contraseña = Comando.getString("contCorreo");
+                        Correo = Comando.getString("Correo");
+                    }
+                    if (Variables.Tipo.equalsIgnoreCase("Administrador")) {
 
-                    Object[] options = {"Aceptar"};
-                    JOptionPane.showOptionDialog(null, "Autorizacion incorrecta", "¡Error!",
-                            JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
-                            null, options, options[0]);
+                        Comando2 = "INSERT INTO usuarios VALUES (default,'" + jTextField1.getText() + "','"
+                                + jPasswordField2.getText() + "','" + jComboBox1.getSelectedItem() + "' ,'" + Correo + "','"
+                                + Contraseña + "'); ";
+                        Funcion.Update(st, Comando2);
+                        //*******Limpiar
+                        jTextField1.setText("");
+                        jPasswordField2.setText("");
+                        jPasswordField1.setText("");
+
+                        Object[] options = {"Aceptar"};
+                        JOptionPane.showOptionDialog(null, "¡Exito!", "Nuevo usuario",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                                null, options, options[0]);
+
+                    } else {
+
+                        Object[] options = {"Aceptar"};
+                        JOptionPane.showOptionDialog(null, "Autorizacion incorrecta", "¡Error!",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+                                null, options, options[0]);
+                    }
                 }
             }
         } catch (Exception e) {
