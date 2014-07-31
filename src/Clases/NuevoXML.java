@@ -90,16 +90,7 @@ public class NuevoXML {
             ArrayList<Double> preciosunitarios = Variables.preciosunitarios;
             ArrayList<Double> importes = Variables.importes;
             
-            String[] nombresGenericos = {"balatas","retrovisores","rines"};
-            for(int i= 0; i< 3;i++){
-                claves.add(i);
-                cantidades.add(2);
-                ums.add("piezas");
-                descripciones.add(nombresGenericos[i]);
-                preciosunitarios.add(120.00);
-                importes.add(240.00);
-                
-            }
+
             
             double ivadelTotal = Variables.iva;
             String impuesto="IVA";
